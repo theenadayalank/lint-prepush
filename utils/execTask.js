@@ -25,9 +25,7 @@ function resolveLinterPackage({ command, fileList }) {
 function constructErrorObject(command, error, output) {
   const e = new Error();
   e.customErrorMessage = dedent`
-    ${
-      symbols.error
-    } "${command}" is having Errors😓. Please revisit them again😉
+    ${symbols.error} "${command}" is having Errors. Consider revisiting them one more time😉
     ${output}
     ${error}
   `;

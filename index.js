@@ -13,6 +13,7 @@ if (process.stdout.isTTY) {
 
   const warning = chalk.keyword("orange");
   const success = chalk.keyword("green");
+  const error = chalk.keyword("red");
   const { log } = console;
 
   const { loadConfig } = require("./utils/loadConfig");
@@ -28,10 +29,11 @@ if (process.stdout.isTTY) {
         })
           .run()
           .then(() => {
-            log(success("Voila! 🎉 You code is ready to be Shipped."));
+            log(success("Voila! 🎉 Code is ready to be Shipped."));
           })
           .catch(({ errors }) => {
             process.exitCode = 1;
+            log(error("There are a few more tweaks to be done. Please Fix them and try again!"));
             errors.forEach(err => {
               console.error(err.customErrorMessage);
             });
@@ -39,6 +41,6 @@ if (process.stdout.isTTY) {
       });
     })
     .catch(() => {
-      warning("Loading Configuration⚙️ Failed!😑");
+      log(warning("Loading Configuration⚙️ Failed!😑"));
     });
 })();
