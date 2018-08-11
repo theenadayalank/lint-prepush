@@ -1,7 +1,9 @@
 {
   "name": "lint-prepush",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Lint committed files in a Branch",
+  "author": "“Theenadayalan” <“puduvai.theena@gmail.com”>",
+  "license": "MIT",
   "bin": {
     "lint-prepush": "index.js"
   },
@@ -16,34 +18,30 @@
       "eslint"
     ]
   },
+  "devDependencies": {
+    "eslint": "^5.3.0",
+    "eslint-plugin-node": "^7.0.1",
+    "husky": "^0.14.3"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "cosmiconfig": "^5.0.5",
+    "debug": "^3.1.0",
+    "dedent": "^0.7.0",
+    "execa": "^0.10.0",
+    "listr": "^0.14.1",
+    "log-symbols": "^2.2.0",
+    "micromatch": "^3.1.10",
+    "npm-which": "^3.0.1",
+    "please-upgrade-node": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=6"
+  },
   "keywords": [
     "lint",
     "lint-prepush",
     "prepush",
     "husky"
-  ],
-  "author": "“Theenadayalan” <“puduvai.theena@gmail.com”>",
-  "license": "MIT",
-  "devDependencies": {
-    "eslint": "^5.3.0",
-    "eslint-plugin-node": "^7.0.1"
-  },
-  "dependencies": {
-    "chalk": "^2.4.1",
-    "committed-git-files": "0.0.1",
-    "cosmiconfig": "^5.0.5",
-    "dedent": "^0.7.0",
-    "execa": "^0.10.0",
-    "find-parent-dir": "^0.3.0",
-    "husky": "^0.14.3",
-    "listr": "^0.14.1",
-    "log-symbols": "^2.2.0",
-    "micromatch": "^3.1.10",
-    "npm-which": "^3.0.1",
-    "path-is-inside": "^1.0.2",
-    "please-upgrade-node": "^3.1.1"
-  },
-  "engines": {
-    "node": ">=6"
-  }
+  ]
 }
