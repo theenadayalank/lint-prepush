@@ -5,7 +5,7 @@ function loadConfig() {
   const explorer = cosmiconfig("lint-prepush", {
     searchPlaces: [
       "package.json",
-      "lint-prepush.config.js",
+      "lintprepush.config.js",
       ".lintprepushrc",
       ".lintprepushrc.js",
       ".lintprepushrc.json",
