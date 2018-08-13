@@ -1,4 +1,4 @@
-# lint-prepush
+# lint-prepush    [![npm version](https://badge.fury.io/js/lint-prepush.svg)](https://badge.fury.io/js/lint-prepush)
 
 > Run linters on committed files in a Branch🔬
 
