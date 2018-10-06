@@ -22,7 +22,7 @@ module.exports = function resolveMainTask( options = {} ) {
   }));
 };
 
-function constructTaskList({ tasks = [], committedGitFiles = [] } = {}) {
+function constructTaskList({ tasks = {}, committedGitFiles = [] } = {}) {
   return Object.keys(tasks).map(fileFormat => {
     let fileList = [];
     let commandList = tasks[fileFormat];

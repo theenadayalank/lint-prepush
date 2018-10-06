@@ -21,7 +21,7 @@ if (process.stdout.isTTY) {
 
   loadConfig()
     .then(({ config = {} } = {}) => {
-      let { base : baseBranch = 'master', tasks = [] } = config;
+      let { base : baseBranch = 'master', tasks = {} } = config;
       debug('Base Branch:' + baseBranch);
       // Fetching committed git files
       fetchGitDiff( baseBranch ).then((committedGitFiles = []) => {
