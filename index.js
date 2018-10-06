@@ -9,7 +9,7 @@ if (process.stdout.isTTY) {
 (function() {
   const Listr = require("listr");
   const chalk = require("chalk");
-  const debug = require("debug")("index");
+  const debug = require("debug")("lint-prepush:index");
 
   const success = chalk.keyword("green");
   const error = chalk.keyword("red");
@@ -20,11 +20,13 @@ if (process.stdout.isTTY) {
   const fetchGitDiff = require("./utils/fetchGitDiff");
 
   loadConfig()
-    .then(({ config = [] }) => {
+    .then(({ config = {} } = {}) => {
+      let { base : baseBranch = 'master', tasks = {} } = config;
+      debug('Base Branch:' + baseBranch);
       // Fetching committed git files
-      fetchGitDiff().then((committedGitFiles = []) => {
+      fetchGitDiff( baseBranch ).then((committedGitFiles = []) => {
         debug(committedGitFiles);
-        new Listr(resolveMainTask({ config, committedGitFiles }), {
+        new Listr(resolveMainTask({ tasks, committedGitFiles }), {
           exitOnError: false,
           concurrent: true
         })

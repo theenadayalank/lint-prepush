@@ -5,7 +5,7 @@ const micromatch = require("micromatch");
 const cwd = process.cwd();
 const resolveLintTask = require("./resolveLintTask");
 
-module.exports = function resolveMainTask(options) {
+module.exports = function resolveMainTask( options = {} ) {
   return constructTaskList(options).map(task => ({
     title: `Linting ${task.fileFormat} files`,
     task: () =>
@@ -22,10 +22,10 @@ module.exports = function resolveMainTask(options) {
   }));
 };
 
-function constructTaskList({ config, committedGitFiles }) {
-  return Object.keys(config).map(fileFormat => {
+function constructTaskList({ tasks = {}, committedGitFiles = [] } = {}) {
+  return Object.keys(tasks).map(fileFormat => {
     let fileList = [];
-    let commandList = config[fileFormat];
+    let commandList = tasks[fileFormat];
     fileList = micromatch(committedGitFiles, [fileFormat], {
       matchBase: true,
       dot: true

@@ -52,9 +52,12 @@ Configure the following scripts in package.json to lint your committed files ğŸ”
 +   "prepush": "lint-prepush"
   },
 + "lint-prepush": {
-+    "*.js": [
-+      "eslint"
-+    ]
++   "base": "master",
++    "tasks": {
++      "*.js": [
++        "eslint"
++      ]
++    }
 +  }
 }
 ```
