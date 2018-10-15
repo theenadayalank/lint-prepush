@@ -5,7 +5,7 @@ const { spawnChildProcess } = require("./common");
 
 module.exports = function fetchGitDiff( baseBranch = "master" ) {
   // git command to pull out the changed file names between current branch and master (Exclude delelted files which cannot be fetched now)
-  let command = `git diff --name-only --diff-filter=d ${baseBranch}...HEAD`;
+  let command = `git diff --relative --name-only --diff-filter=d ${baseBranch}...HEAD`;
 
   return new Promise(resolve => {
     spawnChildProcess({ command }, ({ hasErrors = false, output = {} }) => {
