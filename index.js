@@ -13,6 +13,8 @@ if (process.stdout.isTTY) {
 
   const success = chalk.keyword("green");
   const error = chalk.keyword("red");
+  const warning = chalk.keyword("yellow");
+
   const { log } = console;
 
   const { loadConfig } = require("./utils/common");
@@ -40,6 +42,10 @@ if (process.stdout.isTTY) {
               console.error(err.customErrorMessage);
             });
           });
+      })
+      .catch((message = '') => {
+        process.exitCode = 1;
+        log(warning(message));
       });
     })
     .catch(() => {

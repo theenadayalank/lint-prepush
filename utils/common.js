@@ -43,7 +43,7 @@ function spawnChildProcess({ command = "", params = [] }, callback) {
       });
     } else {
       callback({
-        hasErrors: false,
+        hasErrors: true,
         output: {
           stdout: output,
           stderr: error
