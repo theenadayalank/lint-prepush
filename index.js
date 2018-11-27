@@ -34,7 +34,7 @@ if (process.stdout.isTTY) {
         })
           .run()
           .then(() => {
-            log(success("Voila! 🎉 Code is ready to be Shipped."));
+            log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
           })
           .catch(({ errors }) => {
             process.exitCode = 1;
