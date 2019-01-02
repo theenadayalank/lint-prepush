@@ -25,8 +25,7 @@
     "listr": "^0.14.1",
     "log-symbols": "^2.2.0",
     "micromatch": "^3.1.10",
-    "npm-which": "^3.0.1",
-    "please-upgrade-node": "^3.1.1"
+    "npm-which": "^3.0.1"
   },
   "engines": {
     "node": ">=6"
