@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-const pkg = require("./package.json");
-require("please-upgrade-node")(pkg);
 
 if (process.stdout.isTTY) {
   process.env.FORCE_COLOR = "1";
