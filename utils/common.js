@@ -33,23 +33,11 @@ function spawnChildProcess({ command = "", params = [] }, callback) {
   });
 
   executor.on("close", code => {
-    if (code === 0) {
-      callback({
-        hasErrors: false,
-        output: {
-          stdout: output,
-          stderr: error
-        }
-      });
-    } else {
-      callback({
-        hasErrors: true,
-        output: {
-          stdout: output,
-          stderr: error
-        }
-      });
-    }
+    let hasErrors = code !== 0;
+    callback({
+      hasErrors,
+      output: (hasErrors ? error : output)
+    });
   });
 }
 

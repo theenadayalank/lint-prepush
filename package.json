@@ -1,6 +1,6 @@
 {
   "name": "lint-prepush",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Run linters on committed files in a Branch🔬",
   "author": "“Theenadayalan” <“puduvai.theena@gmail.com”>",
   "license": "MIT",
@@ -10,11 +10,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "node_modules/.bin/eslint *.js",
-    "format": "yarn lint --fix"
+    "format": "yarn lint --fix",
+    "prepush": "node index.js"
+  },
+  "lint-prepush": {
+    "tasks": {
+      "*.js": [
+        "node_modules/.bin/eslint"
+      ]
+    }
   },
   "devDependencies": {
     "eslint": "^5.3.0",
-    "eslint-plugin-node": "^7.0.1"
+    "eslint-plugin-node": "^7.0.1",
+    "husky": "^0.14.3"
   },
   "dependencies": {
     "chalk": "^2.4.1",

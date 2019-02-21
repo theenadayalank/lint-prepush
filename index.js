@@ -15,7 +15,7 @@ if (process.stdout.isTTY) {
 
   const { log } = console;
 
-  const { loadConfig } = require("./utils/common");
+  const { loadConfig, spawnChildProcess } = require("./utils/common");
   const resolveMainTask = require("./utils/resolveMainTask");
   const fetchGitDiff = require("./utils/fetchGitDiff");
 
@@ -23,27 +23,45 @@ if (process.stdout.isTTY) {
     .then(({ config = {} } = {}) => {
       let { base : baseBranch = 'master', tasks = {} } = config;
       debug('Base Branch:' + baseBranch);
-      // Fetching committed git files
-      fetchGitDiff( baseBranch ).then((committedGitFiles = []) => {
-        debug(committedGitFiles);
-        new Listr(resolveMainTask({ tasks, committedGitFiles }), {
-          exitOnError: false,
-          concurrent: true
-        })
-          .run()
-          .then(() => {
-            log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
+
+      // Skip linter for base branch
+      let getCurrentBranchCommand = 'git rev-parse --abbrev-ref HEAD';
+      spawnChildProcess({ command : getCurrentBranchCommand }, ({ hasErrors = false, output = '' }) => {
+        let currentBranch = (output.split('\n') || [])[0];
+        if (hasErrors) {
+          log(error('\nCould not get the current Branch.\n'));
+          process.exitCode = 1;
+          return;
+        }
+
+        if(currentBranch === baseBranch) {
+          log(warning("\nNOTE: Skipping the Lintners since you are in the base branch\n"));
+          return;
+        }
+
+        // Fetching committed git files
+        fetchGitDiff( baseBranch ).then((committedGitFiles = []) => {
+          debug(committedGitFiles);
+          new Listr(resolveMainTask({ tasks, committedGitFiles }), {
+            exitOnError: false,
+            concurrent: true
           })
-          .catch(({ errors }) => {
-            process.exitCode = 1;
-            errors.forEach(err => {
-              console.error(err.customErrorMessage);
+            .run()
+            .then(() => {
+              log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
+            })
+            .catch(({ errors }) => {
+              process.exitCode = 1;
+              errors.forEach(err => {
+                console.error(err.customErrorMessage);
+              });
             });
-          });
-      })
-      .catch((message = '') => {
-        process.exitCode = 1;
-        log(warning(message));
+        })
+        .catch((message = '') => {
+          process.exitCode = 1;
+          log(warning(message));
+        });
+
       });
     })
     .catch(() => {
