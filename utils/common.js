@@ -1,5 +1,5 @@
 const cosmiconfig = require("cosmiconfig");
-const { spawn } = require("child_process");
+const { exec } = require("child_process");
 
 function loadConfig() {
   const explorer = cosmiconfig("lint-prepush", {
@@ -16,32 +16,21 @@ function loadConfig() {
   return explorer.search();
 }
 
-function spawnChildProcess({ command = "", params = [] }, callback) {
-  let [bin, ...args] = command.split(" ");
-  args = args.concat(params);
-  let executor = spawn(bin, args);
-
-  let output = "",
-    error = "";
-
-  executor.stdout.on("data", data => {
-    output += data.toString();
-  });
-
-  executor.stderr.on("data", data => {
-    error += data.toString();
-  });
-
-  executor.on("close", code => {
-    let hasErrors = code !== 0;
-    callback({
-      hasErrors,
-      output: (hasErrors ? error : output)
+function execChildProcess({ command = "" } = {}) {
+  return new Promise( (resolve, reject) => {
+    exec(command , (err, stdout, stderr) => {
+      if (err) {
+        reject(stderr);
+      }
+      let result = (stdout.toString() || "").split('\n');
+      result = result.slice(0,-1);
+      result = result.join('\n');
+      resolve(result);
     });
   });
 }
 
 module.exports = {
   loadConfig,
-  spawnChildProcess
+  execChildProcess
 };
