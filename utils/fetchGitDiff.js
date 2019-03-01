@@ -1,4 +1,4 @@
-const { spawnChildProcess } = require("./common");
+const { execChildProcess } = require("./common");
 
 module.exports = function fetchGitDiff( baseBranch = "master" ) {
 
@@ -6,15 +6,13 @@ module.exports = function fetchGitDiff( baseBranch = "master" ) {
   let command = `git diff --relative --name-only --diff-filter=d ${baseBranch}...HEAD`;
 
   return new Promise( (resolve, reject) => {
-    spawnChildProcess({ command }, ({ hasErrors = false, output = '' }) => {
-      let fileList = [];
-      if (hasErrors) {
-        reject(`\n Fetching committed file list process has been stopped with the following error: \n ${output}`);
-      }
-      output.split("\n").forEach(filename => {
-        filename ? fileList.push(filename) : null;
+    return execChildProcess({ command })
+      .then((result = '') => {
+        let fileList = result.split('\n');
+        resolve(fileList);
+      })
+      .catch((err) => {
+        reject(`\n Fetching committed file list process has been stopped with the following error: \n ${err}`);
       });
-      resolve(fileList);
-    });
   });
 };

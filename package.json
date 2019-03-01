@@ -1,6 +1,6 @@
 {
   "name": "lint-prepush",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Run linters on committed files in a Branch🔬",
   "author": "“Theenadayalan” <“puduvai.theena@gmail.com”>",
   "license": "MIT",
@@ -31,6 +31,7 @@
     "debug": "^3.1.0",
     "dedent": "^0.7.0",
     "execa": "^0.10.0",
+    "file-system-cache": "^1.0.5",
     "listr": "^0.14.1",
     "log-symbols": "^2.2.0",
     "micromatch": "^3.1.10",
