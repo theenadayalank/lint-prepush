@@ -37,6 +37,8 @@ if (process.stdout.isTTY) {
       execChildProcess({ command: getCurrentBranchCommand })
         .then(currentBranch => {
 
+          debug('Current Branch:' + currentBranch);
+
           if(currentBranch === baseBranch) {
             log(warning("\nNOTE: Skipping the Lintners since you are in the base branch\n"));
             return;
@@ -44,7 +46,10 @@ if (process.stdout.isTTY) {
 
           execChildProcess({ command: 'git rev-parse HEAD' })
             .then((commitHash = '') => {
+              debug('Curret Commit Hash:' + commitHash);
+
               let cachedCommitHash = cache.getSync("linted-hash") || "";
+              debug('Cached Commit Hash:' + cachedCommitHash);
 
               if(commitHash === cachedCommitHash) {
                 log(warning("\nNOTE: Skipping the Lintners since the commits are linted already.\n"));
@@ -61,6 +66,7 @@ if (process.stdout.isTTY) {
                   .run()
                   .then(() => {
                     cache.setSync("linted-hash", commitHash);
+                    debug('Cached Current Commit Hash');
                     log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
                   })
                   .catch(({ errors }) => {
