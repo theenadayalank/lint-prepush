@@ -91,6 +91,6 @@ if (process.stdout.isTTY) {
 
     .catch(() => {
       process.exitCode = 1;
-      log(error("Loading Configuration⚙️ Failed!😑"));
+      log(error("\nLoading Configuration⚙️ Failed!😑\n"));
     });
 })();
