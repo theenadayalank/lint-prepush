@@ -27,7 +27,7 @@ It require Node.js v6 or newer. It also requires a package to manage git hooks. 
 ### Installing
 
 * This project requires a package to manage git hooks depending. 
-* I strongly suggest [Husky](https://github.com/typicode/husky) which pauses the git push by overriding pre-commit hook (it almost overrides all hooks, here we need only pre-commit hook) and allow us to run our custom scripts and resumes pushing.
+* I strongly suggest [Husky](https://github.com/typicode/husky) which pauses the git push by overriding pre-commit hook (it almost overrides all hooks, here we need only pre-push hook) and allow us to run our custom scripts and resumes pushing.
 
 
 ### npm
