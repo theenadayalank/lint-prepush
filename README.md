@@ -1,4 +1,8 @@
-# lint-prepush    [![npm version](https://badge.fury.io/js/lint-prepush.svg)](https://www.npmjs.com/package/lint-prepush) [![GitHub license](https://img.shields.io/github/license/theenadayalank/lint-prepush.svg)](https://github.com/theenadayalank/lint-prepush/blob/master/LICENSE)  [![npm monthly downloads](https://img.shields.io/npm/dm/lint-prepush.svg)](https://www.npmjs.com/package/lint-prepush)
+# lint-prepush    
+[![npm version](https://badge.fury.io/js/lint-prepush.svg)](https://www.npmjs.com/package/lint-prepush)
+[![npm monthly downloads](https://img.shields.io/npm/dm/lint-prepush.svg)](https://www.npmtrends.com/lint-prepush)
+[![GitHub license](https://img.shields.io/github/license/theenadayalank/lint-prepush.svg)](https://github.com/theenadayalank/lint-prepush/blob/master/LICENSE)
+
 
 > Run linters on committed files of a GIT Branch🔬
 
