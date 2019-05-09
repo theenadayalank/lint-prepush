@@ -61,7 +61,8 @@ if (process.stdout.isTTY) {
                 debug(committedGitFiles);
                 new Listr(resolveMainTask({ tasks, committedGitFiles }), {
                   exitOnError: false,
-                  concurrent: true
+                  concurrent: true,
+                  collapse: false
                 })
                   .run()
                   .then(() => {
