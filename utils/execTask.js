@@ -1,13 +1,27 @@
 const execa = require("execa");
 const dedent = require("dedent");
+const chalk = require("chalk");
 const symbols = require("log-symbols");
 const npmWhich = require("npm-which")(process.cwd());
 
-module.exports = function execTask({ command, fileList }) {
+function getFormattedTime(end) {
+  return Math.round((end[0] * 1000) + (end[1] / 1000000));
+}
+
+module.exports = function execTask({ command, fileList, task }) {
   let { executor, args } = resolveLinterPackage({ command, fileList });
+  let startTime = process.hrtime();
+
   return () =>
     execa(executor, args, { reject: false }).then(result => {
-      if (!result.failed) return `Passed ${command}`;
+      let end = process.hrtime(startTime);
+      let elapsedTime = `(${getFormattedTime(end)}ms)`;
+      task.title = `${task.title} ${chalk.grey(elapsedTime)}`;
+
+      if (!result.failed) {
+        return `Passed ${command}`;
+      }
+
       throw constructErrorObject(command, result.stderr, result.stdout);
     });
 };
