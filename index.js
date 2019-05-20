@@ -40,7 +40,7 @@ if (process.stdout.isTTY) {
           debug('Current Branch:' + currentBranch);
 
           if(currentBranch === baseBranch) {
-            log(warning("\nNOTE: Skipping the Lintners since you are in the base branch\n"));
+            log(warning("\nNOTE: Skipping checks since you are in the base branch\n"));
             return;
           }
 
@@ -52,7 +52,7 @@ if (process.stdout.isTTY) {
               debug('Cached Commit Hash:' + cachedCommitHash);
 
               if(commitHash === cachedCommitHash) {
-                log(warning("\nNOTE: Skipping the Lintners since the commits are linted already.\n"));
+                log(warning("\nNOTE: Skipping checks since the commit(s) have been linted already.\n"));
                 return;
               }
 
