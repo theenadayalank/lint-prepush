@@ -7,9 +7,11 @@ module.exports = {
     ecmaVersion: 2017,
     sourceType: "module"
   },
-  extends: ["eslint:recommended", "plugin:node/recommended"],
+  extends: [
+    "eslint:recommended", 
+    "plugin:node/recommended"
+  ],
   rules: {
-    // overwritten Eslint rule recommeded rule
     "space-unary-ops": [
       "error",
       {
@@ -37,5 +39,24 @@ module.exports = {
     "func-call-spacing": ["error", "never"],
     "space-before-function-paren": ["error", "never"],
     semi: "error"
-  }
+  },
+  overrides: [
+    // test files
+    {
+      files: ['tests/**/*.js'],
+      parserOptions: {
+        sourceType: 'script',
+        ecmaVersion: 2017
+      },
+      env: {
+        mocha: true
+      },
+      plugins: [
+        "mocha"
+      ],
+      rules: {
+        "mocha/no-exclusive-tests": "error"
+      }
+    }
+  ]
 };
