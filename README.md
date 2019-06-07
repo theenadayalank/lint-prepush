@@ -2,6 +2,7 @@
 [![npm version](https://badge.fury.io/js/lint-prepush.svg)](https://www.npmjs.com/package/lint-prepush)
 [![npm downloads](https://img.shields.io/npm/dt/lint-prepush.svg)](https://www.npmtrends.com/lint-prepush)
 [![GitHub license](https://img.shields.io/github/license/theenadayalank/lint-prepush.svg)](https://github.com/theenadayalank/lint-prepush/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/theenadayalank/lint-prepush.svg?branch=master)](https://travis-ci.org/theenadayalank/lint-prepush)
 
 
 > Run linters on committed files of a GIT Branch🔬
