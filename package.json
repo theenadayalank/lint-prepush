@@ -8,9 +8,9 @@
     "lint-prepush": "index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "node_modules/.bin/eslint **/*.js",
     "format": "yarn lint --fix",
+    "test": "mocha tests/",
     "prepush": "node index.js"
   },
   "lint-prepush": {
@@ -21,13 +21,16 @@
     }
   },
   "devDependencies": {
-    "eslint": "^5.14.1",
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-mocha": "^5.3.0",
     "eslint-plugin-node": "^8.0.1",
-    "husky": "^0.14.3"
+    "husky": "^0.14.3",
+    "mocha": "^6.1.4"
   },
   "dependencies": {
     "chalk": "^2.4.1",
-    "cosmiconfig": "^5.0.5",
+    "cosmiconfig": "^5.2.1",
     "debug": "^3.1.0",
     "dedent": "^0.7.0",
     "execa": "^0.10.0",
@@ -38,7 +41,7 @@
     "npm-which": "^3.0.1"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=7.6.0"
   },
   "repository": {
     "type": "git",
