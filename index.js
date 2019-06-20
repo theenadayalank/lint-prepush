@@ -56,30 +56,58 @@ if (process.stdout.isTTY) {
                 return;
               }
 
-              // Fetching committed git files
-              fetchGitDiff( baseBranch ).then((committedGitFiles = []) => {
-                debug(committedGitFiles);
-                new Listr(resolveMainTask({ tasks, committedGitFiles }), {
-                  exitOnError: false,
-                  concurrent: true,
-                  collapse: false
+              // see if the branch exists on the remote
+              // adapted from:  https://stackoverflow.com/a/44401325/656011
+              const isCurrentBranchPublished = `git ls-remote --exit-code --heads $(git remote | head -1) "${currentBranch}"`;
+
+              // we're going to use the success/error of the call to isCurrentBranchPublished
+              // so we'll return the correct branch based on the exit code we receive
+              const getDiffBranch = execChildProcess({ command: isCurrentBranchPublished })
+                .then(() => {
+                  debug('Branch to Diff:' + currentBranch);
+
+                  // if the current branch has been pushed to the remote
+                  // we'll compare to the currentBranch for our diff
+                  return currentBranch;
                 })
-                  .run()
-                  .then(() => {
-                    cache.setSync("linted-hash", commitHash);
-                    debug('Cached Current Commit Hash');
-                    log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
+                .catch(() => {
+                  debug('Branch to Diff:' + baseBranch);
+
+                  // if the current branch hasn't been pushed to the remote
+                  // we'll compare to the baseBranch for our diff
+                  return baseBranch;
+                });
+
+              // now that we have the branch we need to diff against, let's diff
+              getDiffBranch.then((branch) => {
+                // Fetching committed git files
+                fetchGitDiff( branch ).then((committedGitFiles = []) => {
+                  debug(committedGitFiles);
+                  new Listr(resolveMainTask({ tasks, committedGitFiles }), {
+                    exitOnError: false,
+                    concurrent: true,
+                    collapse: false
                   })
-                  .catch(({ errors }) => {
-                    process.exitCode = 1;
-                    errors.forEach(err => {
-                      console.error(err.customErrorMessage);
+                    .run()
+                    .then(() => {
+                      cache.setSync("linted-hash", commitHash);
+                      debug('Cached Current Commit Hash');
+                      log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
+                    })
+                    .catch(({ errors }) => {
+                      process.exitCode = 1;
+                      errors.forEach(err => {
+                        console.error(err.customErrorMessage);
+                      });
                     });
-                  });
+                })
+                .catch((message = '') => {
+                  process.exitCode = 1;
+                  log(warning(message));
+                });
               })
-              .catch((message = '') => {
-                process.exitCode = 1;
-                log(warning(message));
+              .catch((error) => {
+                log(error(error));
               });
             });
         })
