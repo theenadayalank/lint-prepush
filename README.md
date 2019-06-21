@@ -1,4 +1,4 @@
-# lint-prepush    
+# lint-prepush
 [![npm version](https://badge.fury.io/js/lint-prepush.svg)](https://www.npmjs.com/package/lint-prepush)
 [![npm downloads](https://img.shields.io/npm/dt/lint-prepush.svg)](https://www.npmtrends.com/lint-prepush)
 [![GitHub license](https://img.shields.io/github/license/theenadayalank/lint-prepush.svg)](https://github.com/theenadayalank/lint-prepush/blob/master/LICENSE)
@@ -31,7 +31,7 @@ It require Node.js v6 or newer. It also requires a package to manage git hooks. 
 
 ### Installing
 
-* This project requires a package to manage git hooks depending. 
+* This project requires a package to manage git hooks depending.
 * I strongly suggest [Husky](https://github.com/typicode/husky) which pauses the git push by overriding pre-commit hook (it almost overrides all hooks, here we need only pre-push hook) and allow us to run our custom scripts and resumes pushing.
 
 
@@ -67,6 +67,47 @@ Configure the following scripts in package.json to lint your committed files ðŸ”
 }
 ```
 
+### Output Colors
+
+In case the default output colors don't render well in your terminal, you can adjust them
+by adding a `theme` configuration Object to the `lint-prepush` configuration.
+
+You can use any of the default `keyword`s available in [`chalk`](https://github.com/chalk/chalk),
+and you can override a one, two, or all three of the colors.
+
+The default theme is:
+
+```json
+{
+  "theme": {
+    "success": "green",
+    "error": "red",
+    "warning": "orange"
+  }
+}
+```
+
+```diff
+{
+  "scripts": {
+    "prepush": "lint-prepush"
+  },
+  "lint-prepush": {
+    "base": "master",
+    "tasks": {
+      "*.js": [
+        "eslint"
+      ]
++    },
++    "theme": {
++       "warning": "gray",
++       "error": "orange",
++       "success": "blue"
++    }
+  }
+}
+```
+
 The above scrips will lint the js files while pushing to git. It will terminate the process if there are any errors, otherwise, the changes will be pushed.
 
 ### With Errors
@@ -90,7 +131,7 @@ The above scrips will lint the js files while pushing to git. It will terminate 
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/theenadayalank/lint-prepush/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/theenadayalank/lint-prepush/tags).
 
 ## Authors
 

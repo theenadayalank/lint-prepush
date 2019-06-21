@@ -16,20 +16,33 @@ if (process.stdout.isTTY) {
     ns: process.cwd() //A grouping namespace for items.
   });
 
-  const success = chalk.keyword("green");
-  const error = chalk.keyword("red");
-  const warning = chalk.keyword("magenta");
-
   const { log } = console;
 
   const { loadConfig, execChildProcess } = require("./utils/common");
   const resolveMainTask = require("./utils/resolveMainTask");
   const fetchGitDiff = require("./utils/fetchGitDiff");
 
+  let theme = {
+    success: "green",
+    error: "red",
+    warning: "orange"
+  };
+
   loadConfig()
     .then(({ config = {} } = {}) => {
 
-      let { base : baseBranch = 'master', tasks = {} } = config;
+      let {
+        base : baseBranch = 'master',
+        tasks = {},
+        theme: userTheme = {},
+      } = config;
+
+      theme = Object.assign(theme, userTheme);
+
+      const success = chalk.keyword(theme.success);
+      const error = chalk.keyword(theme.error);
+      const warning = chalk.keyword(theme.warning);
+
       debug('Base Branch:' + baseBranch);
 
       // Skip linter for base branch
@@ -91,7 +104,10 @@ if (process.stdout.isTTY) {
     })
 
     .catch(() => {
+      const error = chalk.keyword(theme.error);
+
       process.exitCode = 1;
+
       log(error("\nLoading Configuration⚙️ Failed!😑\n"));
     });
 })();
