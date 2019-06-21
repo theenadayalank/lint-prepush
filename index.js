@@ -18,7 +18,7 @@ if (process.stdout.isTTY) {
 
   const success = chalk.keyword("green");
   const error = chalk.keyword("red");
-  const warning = chalk.keyword("yellow");
+  const warning = chalk.keyword("magenta");
 
   const { log } = console;
 
