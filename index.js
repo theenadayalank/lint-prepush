@@ -37,14 +37,37 @@ if (process.stdout.isTTY) {
 
   // Skip linter for base branch
   let getCurrentBranchCommand = 'git rev-parse --abbrev-ref HEAD';
+
+  // we're going to use a Promise here because if we are on the baseBranch
+  // we'll need to execute a `git remote | head -1` below to get the current
+  // remote so we can compare the baseBranch to its remote counterpart
+  let resolveBaseBranch = Promise.resolve(baseBranch);
+
   execChildProcess({ command: getCurrentBranchCommand })
     .then(currentBranch => {
 
       debug('Current Branch:' + currentBranch);
 
       if(currentBranch === baseBranch) {
-        log(warning("\nNOTE: Skipping checks since you are in the base branch\n"));
-        return;
+        const getRemoteName = `git remote | head -1`;
+
+        debug('Current Branch is Base Branch.');
+
+        // since we're on our baseBranch, we'll redeclare our resolveBaseBranch
+        // Promise from above so we can retrieve the remote and append it to
+        // our baseBranch
+        resolveBaseBranch = execChildProcess({ command: getRemoteName })
+          .then((remote) => {
+            const base = `${remote}/${baseBranch}`;
+            debug('Base Branch:' + base);
+
+            return base;
+          })
+          .catch(() => {
+            log(error('\nCould not get the current branch\'s remote.\n'));
+            process.exitCode = 1;
+            return;
+          });
       }
 
       execChildProcess({ command: 'git rev-parse HEAD' })
@@ -59,32 +82,39 @@ if (process.stdout.isTTY) {
             return;
           }
 
-          // Fetching committed git files
-          fetchGitDiff( baseBranch ).then((committedGitFiles = []) => {
-            debug(committedGitFiles);
-            new Listr(resolveMainTask({ tasks, committedGitFiles }), {
-              exitOnError: false,
-              concurrent: true,
-              collapse: false
-            })
-              .run()
-              .then(() => {
-                cache.setSync("linted-hash", commitHash);
-                debug('Cached Current Commit Hash');
-                log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
+          resolveBaseBranch.then((base) => {
+            // Fetching committed git files
+            fetchGitDiff( base ).then((committedGitFiles = []) => {
+              debug(committedGitFiles);
+              new Listr(resolveMainTask({ tasks, committedGitFiles }), {
+                exitOnError: false,
+                concurrent: true,
+                collapse: false
               })
-              .catch(({ errors }) => {
-                process.exitCode = 1;
-                errors.forEach(err => {
-                  console.error(err.customErrorMessage);
+                .run()
+                .then(() => {
+                  cache.setSync("linted-hash", commitHash);
+                  debug('Cached Current Commit Hash');
+                  log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
+                })
+                .catch(({ errors }) => {
+                  process.exitCode = 1;
+                  errors.forEach(err => {
+                    console.error(err.customErrorMessage);
+                  });
                 });
-              });
-          })
-          .catch((message = '') => {
-            process.exitCode = 1;
-            log(warning(message));
+            })
+            .catch((message = '') => {
+              process.exitCode = 1;
+              log(warning(message));
+            });
           });
+        })
+        .catch((message = '') => {
+          process.exitCode = 1;
+          log(warning(message));
         });
+      });
     })
     .catch(() => {
       log(error('\nCould not get the current Branch.\n'));
