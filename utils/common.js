@@ -1,20 +1,17 @@
 const cosmiconfig = require("cosmiconfig");
 const { exec } = require("child_process");
 
-function loadConfig() {
-  const explorer = cosmiconfig("lint-prepush", {
-    searchPlaces: [
-      "package.json",
-      "lintprepush.config.js",
-      ".lintprepushrc",
-      ".lintprepushrc.js",
-      ".lintprepushrc.json",
-      ".lintprepushrc.yaml",
-      ".lintprepushrc.yml"
-    ]
-  });
-  return explorer.search();
-}
+const userConfig = (cosmiconfig("lint-prepush", {
+  searchPlaces: [
+    "package.json",
+    "lintprepush.config.js",
+    ".lintprepushrc",
+    ".lintprepushrc.js",
+    ".lintprepushrc.json",
+    ".lintprepushrc.yaml",
+    ".lintprepushrc.yml"
+  ]
+}).searchSync() || {}).config;
 
 function execChildProcess({ command = "" } = {}) {
   return new Promise( (resolve, reject) => {
@@ -31,6 +28,6 @@ function execChildProcess({ command = "" } = {}) {
 }
 
 module.exports = {
-  loadConfig,
+  userConfig,
   execChildProcess
 };
