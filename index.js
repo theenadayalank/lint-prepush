@@ -82,20 +82,41 @@ if (process.stdout.isTTY) {
             return;
           }
 
-          resolveBaseBranch.then((base) => {
-            // Fetching committed git files
-            fetchGitDiff( base ).then((committedGitFiles = []) => {
-              debug(committedGitFiles);
-              new Listr(resolveMainTask({ tasks, committedGitFiles }), {
-                exitOnError: false,
-                concurrent: true,
-                collapse: false
-              })
-                .run()
-                .then(() => {
-                  cache.setSync("linted-hash", commitHash);
-                  debug('Cached Current Commit Hash');
-                  log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
+          execChildProcess({ command: 'git rev-parse HEAD' })
+            .then((commitHash = '') => {
+              debug('Current Commit Hash:' + commitHash);
+
+              let cachedCommitHash = cache.getSync("linted-hash") || "";
+              debug('Cached Commit Hash:' + cachedCommitHash);
+
+              if(commitHash === cachedCommitHash) {
+                log(warning("\nNOTE: Skipping checks since the commit(s) have been linted already.\n"));
+                return;
+              }
+
+              resolveBaseBranch.then((base) => {
+                debug(`Using ${base} as base branch`);
+
+                // Fetching committed git files
+                fetchGitDiff( base ).then((committedGitFiles = []) => {
+                  debug(committedGitFiles);
+                  new Listr(resolveMainTask({ tasks, committedGitFiles }), {
+                    exitOnError: false,
+                    concurrent: true,
+                    collapse: false
+                  })
+                    .run()
+                    .then(() => {
+                      cache.setSync("linted-hash", commitHash);
+                      debug('Cached Current Commit Hash');
+                      log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
+                    })
+                    .catch(({ errors }) => {
+                      process.exitCode = 1;
+                      errors.forEach(err => {
+                        console.error(err.customErrorMessage);
+                      });
+                    });
                 })
                 .catch(({ errors }) => {
                   process.exitCode = 1;
@@ -114,7 +135,6 @@ if (process.stdout.isTTY) {
           process.exitCode = 1;
           log(warning(message));
         });
-      });
     })
     .catch(() => {
       log(error('\nCould not get the current Branch.\n'));
