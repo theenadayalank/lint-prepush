@@ -10,8 +10,7 @@
   "scripts": {
     "lint": "node_modules/.bin/eslint **/*.js",
     "format": "yarn lint --fix",
-    "test": "mocha tests/",
-    "prepush": "node index.js"
+    "test": "mocha tests/"
   },
   "lint-prepush": {
     "tasks": {
@@ -25,7 +24,7 @@
     "eslint": "^6.0.1",
     "eslint-plugin-mocha": "^5.3.0",
     "eslint-plugin-node": "^9.1.0",
-    "husky": "^0.14.3",
+    "husky": "^3.0.5",
     "mocha": "^6.1.4"
   },
   "dependencies": {
@@ -56,5 +55,10 @@
     "lint-prepush",
     "prepush",
     "husky"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-push": "node index.js"
+    }
+  }
 }
