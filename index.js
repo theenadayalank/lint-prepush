@@ -49,7 +49,7 @@ if (process.stdout.isTTY) {
 
       execChildProcess({ command: 'git rev-parse HEAD' })
         .then((commitHash = '') => {
-          debug('Curret Commit Hash:' + commitHash);
+          debug('Current Commit Hash:' + commitHash);
 
           let cachedCommitHash = cache.getSync("linted-hash") || "";
           debug('Cached Commit Hash:' + cachedCommitHash);
