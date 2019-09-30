@@ -40,7 +40,7 @@ Configure the following scripts in package.json to lint your committed files ğŸ”
 {
 + "husky": {
 +   "hooks": {
-+     "pre-commit": "lint-staged"
++     "pre-push": "lint-prepush"
 +   }
 + },
 + "lint-prepush": {
