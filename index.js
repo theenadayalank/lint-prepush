@@ -12,8 +12,8 @@ if (process.stdout.isTTY) {
   const Cache = require("file-system-cache").default;
 
   const cache = Cache({
-    basePath: `${os.homedir()}/.lint-prepush`, //Path where cache files are stored.
-    ns: process.cwd() //A grouping namespace for items.
+    basePath: `${os.homedir()}/.lint-prepush`, // Path where cache files are stored.
+    ns: process.cwd() // A grouping namespace for items.
   });
 
   const success = chalk.keyword("green");
@@ -33,28 +33,23 @@ if (process.stdout.isTTY) {
   }
 
   let { base : baseBranch = 'master', tasks = {} } = userConfig || {};
-  debug('Base Branch:' + baseBranch);
+  debug('Base Branch: ' + baseBranch);
 
-  // Skip linter for base branch
   let getCurrentBranchCommand = 'git rev-parse --abbrev-ref HEAD';
   execChildProcess({ command: getCurrentBranchCommand })
     .then(currentBranch => {
 
-      debug('Current Branch:' + currentBranch);
-
-      if(currentBranch === baseBranch) {
-        log(warning("\nNOTE: Skipping checks since you are in the base branch\n"));
-        return;
-      }
+      debug('Current Branch: ' + currentBranch);
 
       execChildProcess({ command: 'git rev-parse HEAD' })
         .then((commitHash = '') => {
-          debug('Current Commit Hash:' + commitHash);
+          debug('Latest Commit SHA: ' + commitHash);
 
           let cachedCommitHash = cache.getSync("linted-hash") || "";
-          debug('Cached Commit Hash:' + cachedCommitHash);
+          debug('Cached Commit SHA: ' + cachedCommitHash);
 
           if(commitHash === cachedCommitHash) {
+            debug('Skipping checks since the commit(s) have been linted already.');
             log(warning("\nNOTE: Skipping checks since the commit(s) have been linted already.\n"));
             return;
           }
@@ -76,18 +71,18 @@ if (process.stdout.isTTY) {
               return execChildProcess({ command: getRemote })
                 .then((remote) => {
                   const branch = `${remote}/${currentBranch}`;
-                  debug('Branch to Diff:' + branch);
+                  debug('Branch to Diff: ' + branch);
                   return branch;
                 })
                 .catch(() => {
-                  debug('Branch to Diff:' + baseBranch);
+                  debug('Branch to Diff: ' + baseBranch);
 
                   // if we can't find the remote, we'll fall back to the baseBranch
                   return baseBranch;
                 });
             })
             .catch(() => {
-              debug('Branch to Diff:' + baseBranch);
+              debug('Branch to Diff: ' + baseBranch);
 
               return resolveBranch;
             });
