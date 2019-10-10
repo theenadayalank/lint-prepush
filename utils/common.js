@@ -1,5 +1,5 @@
 const cosmiconfig = require("cosmiconfig");
-const { exec } = require("child_process");
+const { execSync } = require("child_process");
 
 const userConfig = (cosmiconfig("lint-prepush", {
   searchPlaces: [
@@ -13,21 +13,15 @@ const userConfig = (cosmiconfig("lint-prepush", {
   ]
 }).searchSync() || {}).config;
 
-function execChildProcess({ command = "" } = {}) {
-  return new Promise( (resolve, reject) => {
-    exec(command , (err, stdout, stderr) => {
-      if (err) {
-        reject(stderr);
-      }
-      let result = (stdout.toString() || "").split('\n');
-      result = result.slice(0,-1);
-      result = result.join('\n');
-      resolve(result);
-    });
-  });
+function execSyncProcess(command = '') {
+  let result = execSync(command).toString() || '';
+  result = result.split('\n');
+  result = result.slice(0,-1);
+  result = result.join('\n');
+  return result;
 }
 
 module.exports = {
   userConfig,
-  execChildProcess
+  execSyncProcess
 };

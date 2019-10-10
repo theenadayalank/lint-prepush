@@ -22,7 +22,7 @@ if (process.stdout.isTTY) {
 
   const { log } = console;
 
-  const { userConfig, execChildProcess } = require("./utils/common");
+  const { userConfig, execSyncProcess } = require("./utils/common");
   const resolveMainTask = require("./utils/resolveMainTask");
   const fetchGitDiff = require("./utils/fetchGitDiff");
 
@@ -32,99 +32,94 @@ if (process.stdout.isTTY) {
     return;
   }
 
-  let { base : baseBranch = 'master', tasks = {} } = userConfig || {};
+  let cachedCommitHash = cache.getSync("linted-hash") || "";
+  debug('Cached Commit SHA: ' + cachedCommitHash);
+
+  let commitHash = '';
+
+  try {
+    commitHash = execSyncProcess('git rev-parse HEAD');
+    debug('Latest Commit SHA: ' + commitHash);
+  }
+  catch(err) {
+    log(error(err));
+    process.exitCode = 1;
+    return;
+  }
+
+  if(commitHash === cachedCommitHash) {
+    debug('Skipping checks since the commit(s) have been linted already.');
+    log(warning("\nNOTE: Skipping checks since the commit(s) have been linted already.\n"));
+    return;
+  }
+
+  let currentBranch = '';
+  let getCurrentBranchCommand = 'git rev-parse --abbrev-ref HEAD';
+
+  try {
+    currentBranch = execSyncProcess(getCurrentBranchCommand);
+    debug('Current Branch: ' + currentBranch);
+  }
+  catch(err) {
+    log(error('\nError while retrieving current branch name\n'));
+    process.exitCode = 1;
+    return;
+  }
+
+  let {
+    base : baseBranch = 'master',
+    tasks = {}
+  } = userConfig || {};
+
   debug('Base Branch: ' + baseBranch);
 
-  let getCurrentBranchCommand = 'git rev-parse --abbrev-ref HEAD';
-  execChildProcess({ command: getCurrentBranchCommand })
-    .then(currentBranch => {
+  // set base branch as the default diff branch
+  let diffBranch = baseBranch;
 
-      debug('Current Branch: ' + currentBranch);
+  // Finding the remote name, if current branch is base branch
+  if(currentBranch === baseBranch) {
+    debug('Fetching the remote of base branch since current branch and base branch is same');
+    try {
+      const getRemote = 'git remote | head -1';
+      let remote = execSyncProcess(getRemote);
+      diffBranch = `${remote}/${baseBranch}`;
+      debug('Remote of base branch: ', remote);
+    }
+    catch(e) {
+      debug('Couldn\'t find the remote.');
+    }
+    debug('Branch to Diff: ', diffBranch);
+  }
 
-      execChildProcess({ command: 'git rev-parse HEAD' })
-        .then((commitHash = '') => {
-          debug('Latest Commit SHA: ' + commitHash);
+  let committedGitFiles = [];
 
-          let cachedCommitHash = cache.getSync("linted-hash") || "";
-          debug('Cached Commit SHA: ' + cachedCommitHash);
+  try {
+    committedGitFiles = fetchGitDiff(diffBranch);
+    debug('Committed GIT files: ', committedGitFiles);
+  }
+  catch(err) {
+    process.exitCode = 1;
+    log(warning('\nFetching committed file list process has been stopped with the following error\n'));
+    log(err);
+    return;
+  }
 
-          if(commitHash === cachedCommitHash) {
-            debug('Skipping checks since the commit(s) have been linted already.');
-            log(warning("\nNOTE: Skipping checks since the commit(s) have been linted already.\n"));
-            return;
-          }
-
-          // see if the branch exists on the remote
-          // adapted from:  https://stackoverflow.com/a/44401325/656011
-          const isCurrentBranchPublished = `git ls-remote --exit-code --heads $(git remote | head -1) "${currentBranch}"`;
-
-          let resolveBranch = Promise.resolve(baseBranch);
-
-          // we're going to use the success/error of the call to isCurrentBranchPublished
-          // so we'll return the correct branch based on the exit code we receive
-          const getDiffBranch = execChildProcess({ command: isCurrentBranchPublished })
-            .then(() => {
-              const getRemote = 'git remote | head -1';
-
-              // if the current branch has been pushed to the remote
-              // we'll compare to the currentBranch for our diff
-              return execChildProcess({ command: getRemote })
-                .then((remote) => {
-                  const branch = `${remote}/${currentBranch}`;
-                  debug('Branch to Diff: ' + branch);
-                  return branch;
-                })
-                .catch(() => {
-                  debug('Branch to Diff: ' + baseBranch);
-
-                  // if we can't find the remote, we'll fall back to the baseBranch
-                  return baseBranch;
-                });
-            })
-            .catch(() => {
-              debug('Branch to Diff: ' + baseBranch);
-
-              return resolveBranch;
-            });
-
-          // now that we have the branch we need to diff against, let's diff
-          getDiffBranch.then((diffBranch) => {
-            // Fetching committed git files
-            fetchGitDiff( diffBranch ).then((committedGitFiles = []) => {
-              debug(committedGitFiles);
-              new Listr(resolveMainTask({ tasks, committedGitFiles }), {
-                exitOnError: false,
-                concurrent: true,
-                collapse: false
-              })
-              .run()
-              .then(() => {
-                cache.setSync("linted-hash", commitHash);
-                debug('Cached Current Commit Hash');
-                log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
-              })
-              .catch(({ errors }) => {
-                process.exitCode = 1;
-                errors.forEach(err => {
-                  console.error(err.customErrorMessage);
-                });
-              });
-            })
-            .catch((message = '') => {
-              process.exitCode = 1;
-              log(warning(message));
-            });
-          })
-          .catch((e) => {
-            log(error(e));
-            process.exitCode = 1;
-            return;
-          });
-        });
-    })
-    .catch(() => {
-      log(error('\nCould not get the current Branch.\n'));
-      process.exitCode = 1;
-      return;
+  new Listr(resolveMainTask({ tasks, committedGitFiles }), {
+    exitOnError: false,
+    concurrent: true,
+    collapse: false
+  })
+  .run()
+  .then(() => {
+    cache.setSync("linted-hash", commitHash);
+    debug('Cached Current Commit Hash');
+    log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
+  })
+  .catch( ({ errors }) => {
+    process.exitCode = 1;
+    errors.forEach(err => {
+      console.error(err.customErrorMessage);
     });
+  });
+
 })();
