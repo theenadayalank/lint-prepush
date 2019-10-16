@@ -32,7 +32,7 @@
     "cosmiconfig": "^5.2.1",
     "debug": "^4.1.1",
     "dedent": "^0.7.0",
-    "execa": "^2.0.5",
+    "execa": "^3.1.0",
     "file-system-cache": "^1.0.5",
     "listr": "^0.14.1",
     "log-symbols": "^3.0.0",
