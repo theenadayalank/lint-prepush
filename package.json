@@ -28,7 +28,7 @@
     "mocha": "^6.1.4"
   },
   "dependencies": {
-    "chalk": "^2.4.1",
+    "chalk": "^3.0.0",
     "cosmiconfig": "^5.2.1",
     "debug": "^4.1.1",
     "dedent": "^0.7.0",
