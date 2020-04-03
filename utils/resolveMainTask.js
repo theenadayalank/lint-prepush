@@ -9,9 +9,9 @@ module.exports = function resolveMainTask( options = {} ) {
   return constructTaskList(options).map(task => ({
     title: `Linting ${task.fileFormat} files`,
     task: () =>
-      new Listr(resolveLintTask(task.commandList, task.fileList), {
+      new Listr(resolveLintTask(task.commandList.concurrent || task.commandList, task.fileList), {
         exitOnError: true,
-        concurrent: false
+        concurrent: Array.isArray(task.commandList.concurrent)
       }),
     skip: () => {
       if (task.fileList.length === 0) {

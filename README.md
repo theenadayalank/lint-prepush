@@ -62,6 +62,22 @@ The above scrips will lint the js files while pushing to git. It will terminate 
 ### With Errors
 <img src="screenshots/OutputWithErrors.gif" width="496" height="340" alt="With Erros">
 
+### Concurrent Tasks
+
+If you'd like to run your task concurrently, use the `concurrent` property like so:
+
+```diff
+{
++ "lint-prepush": {
++    "tasks": {
++      "*.js": {
++        concurrent: [ "jest", "eslint" ]
++      }
++    }
++  }
+}
+```
+
 ## Built With
 
 * [NodeJs](https://nodejs.org/en/) - Framework used
