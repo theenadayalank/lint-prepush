@@ -27,7 +27,8 @@ function constructTaskList({ tasks = {}, committedGitFiles = [] } = {}) {
     let fileList = [];
     let commandList = tasks[fileFormat];
     fileList = micromatch(committedGitFiles, [fileFormat], {
-      matchBase: true,
+      // Glob patterns break if matchBase is true, disable if fileFormat looks like path
+      matchBase: !fileFormat.includes('/'),
       dot: true
     }).map(file => path.resolve(cwd, file));
     return { fileFormat, commandList, fileList };
