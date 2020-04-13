@@ -64,7 +64,8 @@ The above scrips will lint the js files while pushing to git. It will terminate 
 
 ### Concurrent Tasks
 
-If you'd like to run your task concurrently, use the `concurrent` property like so:
+Tasks for a file group will by default run in linear order (eg. `"*.js": [ "jest", "eslint"]` will run jest first, then after it's done run eslint). 
+If you'd like to run tasks for a file group concurrently instead (eg. jest and eslint in parallel), use the `concurrent` property like so:
 
 ```diff
 {
