@@ -25,6 +25,8 @@ if (process.stdout.isTTY) {
   const { userConfig, execSyncProcess } = require("./utils/common");
   const resolveMainTask = require("./utils/resolveMainTask");
   const fetchGitDiff = require("./utils/fetchGitDiff");
+  const checkForBranchExistence = require('./utils/checkForBranchExistence');
+  const getAllTrackedFiles = require('./utils/getAllTrackedFiles');
 
   if(!userConfig) {
     process.exitCode = 1;
@@ -75,13 +77,14 @@ if (process.stdout.isTTY) {
 
   // set base branch as the default diff branch
   let diffBranch = baseBranch;
+  let remote = '';
 
   // Finding the remote name, if current branch is base branch
   if(currentBranch === baseBranch) {
     debug('Fetching the remote of base branch since current branch and base branch is same');
     try {
       const getRemote = 'git remote | head -1';
-      let remote = execSyncProcess(getRemote);
+      remote = execSyncProcess(getRemote);
       diffBranch = `${remote}/${baseBranch}`;
       debug('Remote of base branch: ', remote);
     }
@@ -91,17 +94,40 @@ if (process.stdout.isTTY) {
     debug('Branch to Diff: ', diffBranch);
   }
 
-  let committedGitFiles = [];
-
+  let isdiffBranchExisted = false;
   try {
-    committedGitFiles = fetchGitDiff(diffBranch);
-    debug('Committed GIT files: ', committedGitFiles);
-  }
-  catch(err) {
+    isdiffBranchExisted = checkForBranchExistence(diffBranch);
+    debug('Check whether branch is existed: ', diffBranch);
+  } catch (err) {
     process.exitCode = 1;
-    log(warning('\nFetching committed file list process has been stopped with the following error\n'));
+    log(warning('\nCheck for diffBranch existence process has been stopped with the following error\n'));
     log(err);
     return;
+  }
+
+  let committedGitFiles = [];
+  if (isdiffBranchExisted) {
+    try {
+      committedGitFiles = fetchGitDiff(diffBranch);
+      debug('Committed GIT files: ', committedGitFiles);
+    } catch (err) {
+      process.exitCode = 1;
+      log(warning('\nFetching committed file list process has been stopped with the following error\n'));
+      log(err);
+      return;
+    }
+  }
+  // if diffBranch is not existed,get all tracked files on currentBranch to lint
+  else {
+    try {
+      committedGitFiles = getAllTrackedFiles(currentBranch);
+      debug('Tracked files: ', committedGitFiles);
+    } catch (err) {
+      process.exitCode = 1;
+      log(warning('\nGetting tracked file list process has been stopped with the following error\n'));
+      log(err);
+      return;
+    }
   }
 
   new Listr(resolveMainTask({ tasks, committedGitFiles }), {
