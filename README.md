@@ -62,6 +62,23 @@ The above scrips will lint the js files while pushing to git. It will terminate 
 ### With Errors
 <img src="screenshots/OutputWithErrors.gif" width="496" height="340" alt="With Erros">
 
+### Concurrent Tasks
+
+Tasks for a file group will by default run in linear order (eg. `"*.js": [ "jest", "eslint"]` will run jest first, then after it's done run eslint). 
+If you'd like to run tasks for a file group concurrently instead (eg. jest and eslint in parallel), use the `concurrent` property like so:
+
+```diff
+{
++ "lint-prepush": {
++    "tasks": {
++      "*.js": {
++        concurrent: [ "jest", "eslint" ]
++      }
++    }
++  }
+}
+```
+
 ## Built With
 
 * [NodeJs](https://nodejs.org/en/) - Framework used
