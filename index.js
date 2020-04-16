@@ -96,7 +96,7 @@ if (process.stdout.isTTY) {
 
   let isdiffBranchExisted = false;
   try {
-    isdiffBranchExisted = checkForBranchExistence(diffBranch);
+    isdiffBranchExisted = checkForBranchExistence(baseBranch,remote);
     debug('Check whether branch is existed: ', diffBranch);
   } catch (err) {
     process.exitCode = 1;
