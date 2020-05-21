@@ -107,7 +107,7 @@ if (process.stdout.isTTY) {
 
   let committedGitFiles = [];
   if (isdiffBranchExisted) {
-    log(success('Great, we find the ' + diffBranch + ' branch.'));
+    debug('Base branch exists.');
     try {
       committedGitFiles = fetchGitDiff(diffBranch);
       debug('Committed GIT files: ', committedGitFiles);
@@ -120,8 +120,8 @@ if (process.stdout.isTTY) {
   }
   // if diffBranch is not existed,get all tracked files on currentBranch to lint
   else {
-    log(warning('Sorry, we cannot find the ' + diffBranch + ' branch.'));
-    log(warning('So,we use ' + currentBranch + 'branch instead'));
+    log(warning('\n⚠️ The base branch(' + diffBranch + ") doesn't exist."));
+    log(warning('Hence all the files will be considered\n'));
     try {
       committedGitFiles = getAllTrackedFiles(currentBranch);
       debug('Tracked files: ', committedGitFiles);
