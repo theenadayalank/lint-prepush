@@ -40,7 +40,7 @@
     "npm-which": "^3.0.1"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "repository": {
     "type": "git",
