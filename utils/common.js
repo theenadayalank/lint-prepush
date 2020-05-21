@@ -1,7 +1,7 @@
-const cosmiconfig = require("cosmiconfig");
+const { cosmiconfigSync } = require("cosmiconfig");
 const { execSync } = require("child_process");
 
-const userConfig = (cosmiconfig("lint-prepush", {
+const userConfig = (cosmiconfigSync("lint-prepush", {
   searchPlaces: [
     "package.json",
     "lintprepush.config.js",
@@ -11,7 +11,7 @@ const userConfig = (cosmiconfig("lint-prepush", {
     ".lintprepushrc.yaml",
     ".lintprepushrc.yml"
   ]
-}).searchSync() || {}).config;
+}).search() || {}).config;
 
 function execSyncProcess(command = '') {
   let result = execSync(command).toString() || '';
