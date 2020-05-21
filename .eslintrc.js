@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     es6: true,
     node: true
@@ -8,7 +9,7 @@ module.exports = {
     sourceType: "module"
   },
   extends: [
-    "eslint:recommended", 
+    "eslint:recommended",
     "plugin:node/recommended"
   ],
   rules: {
@@ -36,7 +37,6 @@ module.exports = {
     "array-bracket-spacing": ["error", "never"],
     "object-curly-spacing": ["error", "always"],
     "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 1 }],
-    "func-call-spacing": ["error", "never"],
     "space-before-function-paren": ["error", "never"],
     semi: "error"
   },
