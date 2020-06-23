@@ -70,7 +70,8 @@ if (process.stdout.isTTY) {
 
   let {
     base : baseBranch = 'master',
-    tasks = {}
+    tasks = {},
+    verbose = false
   } = userConfig || {};
 
   debug('Base Branch: ' + baseBranch);
@@ -133,7 +134,12 @@ if (process.stdout.isTTY) {
     }
   }
 
-  new Listr(resolveMainTask({ tasks, committedGitFiles }), {
+  const options = {
+    verbose,
+    output: []
+  };
+
+  new Listr(resolveMainTask({ tasks, committedGitFiles, options }), {
     exitOnError: false,
     concurrent: true,
     collapse: false
@@ -142,6 +148,12 @@ if (process.stdout.isTTY) {
   .then(() => {
     cache.setSync("linted-hash", commitHash);
     debug('Cached Current Commit Hash');
+    if (options.verbose) {
+      log(success('\nAll tasks completed successfully. Printing tasks output.\n'));
+      for (const line of options.output) {
+        log(line);
+      }
+    }
     log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
   })
   .catch( ({ errors }) => {

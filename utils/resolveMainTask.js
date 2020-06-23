@@ -5,11 +5,11 @@ const micromatch = require("micromatch");
 const cwd = process.cwd();
 const resolveLintTask = require("./resolveLintTask");
 
-module.exports = function resolveMainTask( options = {} ) {
-  return constructTaskList(options).map(task => ({
+module.exports = function resolveMainTask( config = {} ) {
+  return constructTaskList(config).map(task => ({
     title: `Linting ${task.fileFormat} files`,
     task: () =>
-      new Listr(resolveLintTask(task.commandList.concurrent || task.commandList, task.fileList), {
+      new Listr(resolveLintTask(task.commandList.concurrent || task.commandList, task.fileList, config.options), {
         exitOnError: true,
         concurrent: Array.isArray(task.commandList.concurrent)
       }),

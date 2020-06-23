@@ -1,4 +1,4 @@
-# lint-prepush    
+# lint-prepush
 [![npm version](https://badge.fury.io/js/lint-prepush.svg)](https://www.npmjs.com/package/lint-prepush)
 [![npm downloads](https://img.shields.io/npm/dt/lint-prepush.svg)](https://www.npmtrends.com/lint-prepush)
 [![GitHub license](https://img.shields.io/github/license/theenadayalank/lint-prepush.svg)](https://github.com/theenadayalank/lint-prepush/blob/master/LICENSE)
@@ -13,7 +13,7 @@ This package will run linters on your project for the committed files in your br
 
 ### Prerequisites🔭
 
-* This package requires Node.js `>=8`. 
+* This package requires Node.js `>=8`.
 * A package to manage git hooks.
 
 ### Installing
@@ -34,7 +34,7 @@ yarn add --dev husky lint-prepush
 
 Configure the following scripts in package.json to lint your committed files 🔧. You can also follow any of the  [cosmiconfig](https://github.com/davidtheclark/cosmiconfig) methods to configure lint-prepush.
 
-* Here [Husky](https://github.com/typicode/husky) is used for managing git hooks. 
+* Here [Husky](https://github.com/typicode/husky) is used for managing git hooks.
 
 ```diff
 {
@@ -64,7 +64,7 @@ The above scrips will lint the js files while pushing to git. It will terminate 
 
 ### Concurrent Tasks
 
-Tasks for a file group will by default run in linear order (eg. `"*.js": [ "jest", "eslint"]` will run jest first, then after it's done run eslint). 
+Tasks for a file group will by default run in linear order (eg. `"*.js": [ "jest", "eslint"]` will run jest first, then after it's done run eslint).
 If you'd like to run tasks for a file group concurrently instead (eg. jest and eslint in parallel), use the `concurrent` property like so:
 
 ```diff
@@ -76,6 +76,19 @@ If you'd like to run tasks for a file group concurrently instead (eg. jest and e
 +      }
 +    }
 +  }
+}
+```
+
+### Verbose
+
+By default when the tasks succeed, there is no output printed to the console. Sometimes you might need to show linter rules configured for `warn` which should be displayed even if the tasks succeed. In order to achieve this, you can pass the config `verbose: true` so that the task output is printed to the console when the tasks succeed.
+
+```
+"lint-prepush": {
+  "verbose": true,
+  "tasks": {
+    ...
+  }
 }
 ```
 
@@ -93,7 +106,7 @@ If you'd like to run tasks for a file group concurrently instead (eg. jest and e
 
 ## Versioning
 
-This package use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/theenadayalank/lint-prepush/tags). 
+This package use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/theenadayalank/lint-prepush/tags).
 
 ## Authors
 
