@@ -148,7 +148,7 @@ if (process.stdout.isTTY) {
   .then(() => {
     cache.setSync("linted-hash", commitHash);
     debug('Cached Current Commit Hash');
-    if (options.verbose) {
+    if (options.verbose && options.output.length) {
       log(success('\nAll tasks completed successfully. Printing tasks output.\n'));
       for (const line of options.output) {
         log(line);
