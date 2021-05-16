@@ -13,7 +13,7 @@ This package will run linters on your project for the committed files in your br
 
 ### Prerequisites🔭
 
-* This package requires Node.js `>=8`.
+* This package requires Node.js `>=10`.
 * A package to manage git hooks.
 
 ### Installing
