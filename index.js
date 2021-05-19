@@ -69,10 +69,24 @@ if (process.stdout.isTTY) {
   }
 
   let {
-    base : baseBranch = 'master',
+    base : baseBranch,
     tasks = {},
     verbose = false
   } = userConfig || {};
+
+  let isdiffBranchExisted = false;
+
+  if (!baseBranch) {
+    debug('Base not specified, checking for upstream ref');
+    try {
+      baseBranch = execSyncProcess('git rev-parse --abbrev-ref $branch@{upstream}');
+      isdiffBranchExisted = true;
+      debug('Upstream branch name', baseBranch);
+    } catch(error) {
+      // fall back to original behavior of hard-coding the name master
+      baseBranch = 'master';
+    }
+  }
 
   debug('Base Branch: ' + baseBranch);
 
@@ -95,10 +109,9 @@ if (process.stdout.isTTY) {
     debug('Branch to Diff: ', diffBranch);
   }
 
-  let isdiffBranchExisted = false;
   try {
-    isdiffBranchExisted = checkForBranchExistence(baseBranch,remote);
-    debug('Check whether branch is existed: ', diffBranch);
+    isdiffBranchExisted = isdiffBranchExisted ? isdiffBranchExisted : checkForBranchExistence(baseBranch,remote);
+    debug('Check whether branch exists: ', diffBranch);
   } catch (err) {
     process.exitCode = 1;
     log(warning('\nCheck for diffBranch existence process has been stopped with the following error\n'));
