@@ -35,7 +35,7 @@
     "execa": "^4.0.1",
     "file-system-cache": "^1.0.5",
     "listr": "^0.14.1",
-    "log-symbols": "^4.0.0",
+    "log-symbols": "^5.0.0",
     "micromatch": "^4.0.2",
     "npm-which": "^3.0.1"
   },
