@@ -1,6 +1,6 @@
-const { execSyncProcess } = require("./common");
+import { execSyncProcess } from './common';
 
-module.exports = function fetchGitDiff( baseBranch = "master" ) {
+export default function fetchGitDiff( baseBranch = "master" ) {
   // git command to pull out the changed file names between current branch and base branch (Excluded delelted files which cannot be fetched now)
   let command = `git diff --relative --name-only --diff-filter=d ${baseBranch}...HEAD`;
 

@@ -1,11 +1,11 @@
-const Listr = require("listr");
-const path = require("path");
-const micromatch = require("micromatch");
+import Listr from 'listr';
+import path from 'path';
+import micromatch from 'micromatch';
+import resolveLintTask from './resolveLintTask';
 
 const cwd = process.cwd();
-const resolveLintTask = require("./resolveLintTask");
 
-module.exports = function resolveMainTask( config = {} ) {
+export default function resolveMainTask( config = {} ) {
   return constructTaskList(config).map(task => ({
     title: `Linting ${task.fileFormat} files`,
     task: () =>

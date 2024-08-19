@@ -1,1 +1,16 @@
-screenshots/
+# dependency directories
+/node_modules
+
+# development configurations
+.env
+.DS_Store
+.github/
+.gitignore
+eslint.config.js
+yarn.lock
+tsup.config.ts
+
+# development files
+/scrips
+/src
+/tests
