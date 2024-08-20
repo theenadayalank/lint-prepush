@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import debugFactory from 'debug';
 import os from 'os';
 import Cache from 'file-system-cache';
+
 import { userConfig, execSyncProcess } from './utils/common';
 import resolveMainTask from './utils/resolveMainTask';
 import fetchGitDiff from './utils/fetchGitDiff';

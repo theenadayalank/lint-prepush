@@ -1,11 +1,12 @@
 import { defineConfig } from 'tsup';
  
 export default defineConfig({
-    format: ['cjs', 'esm'],
-    entry: ['./src/index.js'],
-    dts: true,
-    shims: true,
-    skipNodeModulesBundle: true,
+    format: ['esm'],
+    entry: ['./src/lint-prepush.js'],
+    platform: 'node',
+    target: 'node20',
+    outDir: 'dist',
     clean: true,
-    "sourcemap": false,
+    sourcemap: false,
+    minify: true,
 });

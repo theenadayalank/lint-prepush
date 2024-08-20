@@ -7,7 +7,7 @@ export default [
     files: ["src/**/*.js"],
     languageOptions: {
       globals: {
-        ...globals.node,y
+        ...globals.node,
       },
       parserOptions: {
         ecmaVersion: "latest",

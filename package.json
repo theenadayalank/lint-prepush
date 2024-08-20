@@ -65,7 +65,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-push": "node ./src/index.js"
+      "pre-push": "node ./src/lint-prepush.js"
     }
   }
 }
