@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { execSyncProcess } from '../utils/common';
+import { execSyncProcess } from '../src/utils/common.js';
 
 describe('Test commmon util functions', function() {
   describe('Assert execSyncProcess() function', function() {
