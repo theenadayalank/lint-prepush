@@ -4,15 +4,19 @@
   "description": "Run linters on committed files in a Branch🔬",
   "author": "“Theenadayalan” <“puduvai.theena@gmail.com”>",
   "license": "MIT",
+  "type": "module",
   "bin": {
-    "lint-prepush": "index.js"
+    "lint-prepush": "./dist/lint-prepush.js"
   },
   "scripts": {
-    "lint": "node_modules/.bin/eslint **/*.js",
-    "format": "yarn lint --fix",
-    "test": "mocha tests/"
+    "lint": "node_modules/.bin/eslint",
+    "lint:fix": "yarn lint --fix",
+    "build": "tsup",
+    "test": "mocha tests/",
+    "prepare": "husky"
   },
   "lint-prepush": {
+    "base": "develop",
     "tasks": {
       "*.js": [
         "node_modules/.bin/eslint"
@@ -20,27 +24,31 @@
     }
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "eslint": "^7.0.0",
-    "eslint-plugin-mocha": "^7.0.0",
+    "@eslint/js": "^9.9.0",
+    "chai": "^5.1.0",
+    "eslint": "^9.1.1",
+    "eslint-plugin-mocha": "^10.5.0",
     "eslint-plugin-node": "^11.1.0",
-    "husky": "^4.2.5",
-    "mocha": "^7.1.2"
+    "husky": "^9.1.5",
+    "mocha": "^10.4.0",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
-    "chalk": "^4.0.0",
-    "cosmiconfig": "^6.0.0",
-    "debug": "^4.1.1",
-    "dedent": "^0.7.0",
-    "execa": "^4.0.1",
-    "file-system-cache": "^1.0.5",
-    "listr": "^0.14.1",
-    "log-symbols": "^4.0.0",
-    "micromatch": "^4.0.2",
+    "chalk": "^5.3.0",
+    "cosmiconfig": "^9.0.0",
+    "debug": "^4.3.4",
+    "dedent": "^1.5.3",
+    "execa": "^7.2.0",
+    "file-system-cache": "^2.4.7",
+    "listr": "^0.14.3",
+    "log-symbols": "^6.0.0",
+    "micromatch": "^4.0.5",
+    "node-which": "^1.0.0",
     "npm-which": "^3.0.1"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=18.18.0"
   },
   "repository": {
     "type": "git",
@@ -54,11 +62,8 @@
     "lint",
     "lint-prepush",
     "prepush",
-    "husky"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-push": "node index.js"
-    }
-  }
+    "husky",
+    "linter",
+    "git"
+  ]
 }

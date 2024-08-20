@@ -1,6 +1,6 @@
-const { execSyncProcess } = require('./common');
+import { execSyncProcess } from './common.js';
 
-module.exports = function getAllTrackedFiles(branch = 'master') {
+export default function getAllTrackedFiles(branch = "master") {
   let command = `git ls-tree -r ${branch} --name-only`;
 
   let committedGitFiles = execSyncProcess(command) || '';
