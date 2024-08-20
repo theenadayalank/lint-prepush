@@ -64,6 +64,7 @@
     "prepush",
     "husky",
     "linter",
-    "git"
+    "git",
+    "hooks"
   ]
 }
