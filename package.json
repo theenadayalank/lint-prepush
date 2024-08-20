@@ -11,7 +11,8 @@
     "lint": "node_modules/.bin/eslint **/*.js",
     "lint:fix": "yarn lint --fix",
     "build": "tsup",
-    "test": "mocha tests/"
+    "test": "mocha tests/",
+    "prepare": "husky"
   },
   "lint-prepush": {
     "base": "develop",
@@ -26,7 +27,7 @@
     "eslint": "^9.1.1",
     "eslint-plugin-mocha": "^10.5.0",
     "eslint-plugin-node": "^11.1.0",
-    "husky": "^9.0.11",
+    "husky": "^9.1.5",
     "mocha": "^10.4.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
