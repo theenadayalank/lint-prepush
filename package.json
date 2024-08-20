@@ -4,11 +4,12 @@
   "description": "Run linters on committed files in a Branch🔬",
   "author": "“Theenadayalan” <“puduvai.theena@gmail.com”>",
   "license": "MIT",
+  "type": "module",
   "bin": {
     "lint-prepush": "./dist/lint-prepush.js"
   },
   "scripts": {
-    "lint": "node_modules/.bin/eslint **/*.js",
+    "lint": "node_modules/.bin/eslint",
     "lint:fix": "yarn lint --fix",
     "build": "tsup",
     "test": "mocha tests/",
@@ -23,6 +24,7 @@
     }
   },
   "devDependencies": {
+    "@eslint/js": "^9.9.0",
     "chai": "^5.1.0",
     "eslint": "^9.1.1",
     "eslint-plugin-mocha": "^10.5.0",
@@ -38,7 +40,7 @@
     "debug": "^4.3.4",
     "dedent": "^1.5.3",
     "execa": "^7.2.0",
-    "file-system-cache": "^2.4.4",
+    "file-system-cache": "^2.4.7",
     "listr": "^0.14.3",
     "log-symbols": "^6.0.0",
     "micromatch": "^4.0.5",
@@ -48,7 +50,6 @@
   "engines": {
     "node": ">=18.18.0"
   },
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/theenadayalank/lint-prepush.git"
@@ -64,10 +65,5 @@
     "husky",
     "linter",
     "git"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-push": "node ./src/lint-prepush.js"
-    }
-  }
+  ]
 }

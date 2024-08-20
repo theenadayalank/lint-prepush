@@ -1,6 +1,6 @@
-import { execSyncProcess } from './common';
+import { execSyncProcess } from './common.js';
 
-export default function checkForBranchExistence (branch = 'master', remote = '') {
+export default function checkForBranchExistence(branch = 'master', remote = '') {
   // check whether branch exists local
   let command = `git branch --list ${branch}`;
   if (remote) {

@@ -1,8 +1,8 @@
 import globals from "globals";
+import js from "@eslint/js";
 import mochaPlugin from 'eslint-plugin-mocha';
 
 export default [
-  mochaPlugin.configs.flat.recommended,
   {
     files: ["src/**/*.js"],
     languageOptions: {
@@ -15,6 +15,7 @@ export default [
       },
     },
     rules: {
+      ...js.configs.recommended.rules,
       "space-unary-ops": [
         "error",
         {
@@ -42,7 +43,11 @@ export default [
       "space-before-function-paren": ["error", "never"],
       semi: "error",
     },
-  },{
+  },
+
+  // mocha related eslint rules
+  {
+    ...mochaPlugin.configs.flat.recommended,
     files: ["tests/**/*.js"],
     languageOptions: {
       parserOptions: {

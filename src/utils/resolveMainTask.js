@@ -1,7 +1,8 @@
 import Listr from 'listr';
 import path from 'path';
 import micromatch from 'micromatch';
-import resolveLintTask from './resolveLintTask';
+
+import resolveLintTask from './resolveLintTask.js';
 
 const cwd = process.cwd();
 

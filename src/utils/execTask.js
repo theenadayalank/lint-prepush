@@ -1,4 +1,4 @@
-import execa from 'execa';
+import { execa } from 'execa';
 import dedent from 'dedent';
 import chalk from 'chalk';
 import symbols from 'log-symbols';

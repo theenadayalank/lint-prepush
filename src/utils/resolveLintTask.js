@@ -1,4 +1,4 @@
-import execTask from './execTask';
+import execTask from './execTask.js';
 
 export default function resolveLintTask(commandList, fileList, options) {
   return commandList.map((command) => ({

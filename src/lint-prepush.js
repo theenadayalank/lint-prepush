@@ -4,13 +4,13 @@ import Listr from 'listr';
 import chalk from 'chalk';
 import debugFactory from 'debug';
 import os from 'os';
-import Cache from 'file-system-cache';
+import { Cache } from 'file-system-cache';
 
-import { userConfig, execSyncProcess } from './utils/common';
-import resolveMainTask from './utils/resolveMainTask';
-import fetchGitDiff from './utils/fetchGitDiff';
-import checkForBranchExistence from './utils/checkForBranchExistence';
-import getAllTrackedFiles from './utils/getAllTrackedFiles';
+import { userConfig, execSyncProcess } from './utils/common.js';
+import resolveMainTask from './utils/resolveMainTask.js';
+import fetchGitDiff from './utils/fetchGitDiff.js';
+import checkForBranchExistence from './utils/checkForBranchExistence.js';
+import getAllTrackedFiles from './utils/getAllTrackedFiles.js';
 
 const debug = debugFactory("lint-prepush:index");
 
@@ -20,14 +20,14 @@ if (process.stdout.isTTY) {
 
 (() => {
 
-  const cache = Cache({
+  const cache = new Cache({
     basePath: `${os.homedir()}/.lint-prepush`, // Path where cache files are stored.
     ns: process.cwd(), // A grouping namespace for items.
   });
 
-  const success = chalk.keyword("green");
-  const error = chalk.keyword("red");
-  const warning = chalk.keyword("yellow");
+  const success = chalk.green;
+  const error = chalk.red;
+  const warning = chalk.yellow;
 
   const { log } = console;
 
@@ -67,8 +67,9 @@ if (process.stdout.isTTY) {
   try {
     currentBranch = execSyncProcess(getCurrentBranchCommand);
     debug("Current Branch: " + currentBranch);
-  } catch (err) {
+  } catch (error) {
     log(error("\nError while retrieving current branch name\n"));
+    log(error);
     process.exitCode = 1;
     return;
   }
@@ -86,6 +87,7 @@ if (process.stdout.isTTY) {
       isdiffBranchExisted = true;
       debug("Upstream branch name", baseBranch);
     } catch (error) {
+      log(error);
       // fall back to original behavior of hard-coding the name master
       baseBranch = "master";
     }
@@ -109,6 +111,7 @@ if (process.stdout.isTTY) {
       debug("Remote of base branch: ", remote);
     } catch (e) {
       debug("Couldn't find the remote.");
+      log(e);
     }
     debug("Branch to Diff: ", diffBranch);
   }
