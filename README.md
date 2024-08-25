@@ -7,40 +7,35 @@
 
 ## Getting Started 🔮
 
-This package will run linters on committed files while pushing the code to remote.
+lint-prepush will run linters on the commited files while pushing the code to remote.
 
 ### Prerequisites🔭
 
-* This package requires Node.js `>=10`.
-* A package to manage git hooks.
+* This package requires Node.js `>=18.18.0`.
+* A package to manage git hooks. (a tool like [Husky](https://github.com/typicode/husky))
 
 ### Installing
 
 #### npm
 
 ```bash
-npm install --save-dev husky lint-prepush
+npm install --save-dev lint-prepush
 ```
 
 #### using [`yarn`](https://yarnpkg.com/):
 
 ```bash
-yarn add --dev husky lint-prepush
+yarn add --dev lint-prepush
 ```
 
 ### Usage
 
-Configure the following scripts in package.json to lint your committed files 🔧. You can also follow any of the  [cosmiconfig](https://github.com/davidtheclark/cosmiconfig) methods to configure lint-prepush.
+* Configure the following scripts in package.json to lint your committed files 🔧. You can also follow any of the  [cosmiconfig](https://github.com/davidtheclark/cosmiconfig) methods to configure lint-prepush.
 
-* Here [Husky](https://github.com/typicode/husky) is used for managing git hooks.
+* pre-push git hook needs to be configured. [Husky](https://github.com/typicode/husky) is a widely used package for managing git hooks.
 
 ```diff
 {
-+ "husky": {
-+   "hooks": {
-+     "pre-push": "lint-prepush"
-+   }
-+ },
 + "lint-prepush": {
 +   "base": "master",
 +    "tasks": {
