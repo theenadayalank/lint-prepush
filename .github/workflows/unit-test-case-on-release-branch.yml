@@ -1,0 +1,29 @@
+name: Run Tests on Release Branch
+
+on:
+  push:
+    branches:
+      - release/**
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'yarn'
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Run eslint
+      run: yarn lint
+
+    - name: Run tests
+      run: yarn test
