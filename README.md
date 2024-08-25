@@ -3,11 +3,11 @@
 [![npm downloads](https://img.shields.io/npm/dt/lint-prepush.svg)](https://www.npmtrends.com/lint-prepush)
 [![GitHub license](https://img.shields.io/github/license/theenadayalank/lint-prepush.svg)](https://github.com/theenadayalank/lint-prepush/blob/master/LICENSE)
 
-> Run linters on committed files of a GIT Branch🔬
+> Run linters on committed files🔬
 
 ## Getting Started 🔮
 
-This package will run linters on your project for the committed files in your branch.
+This package will run linters on committed files while pushing the code to remote.
 
 ### Prerequisites🔭
 
