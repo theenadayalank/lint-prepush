@@ -1,116 +1,93 @@
-# lint-prepush
-[![npm version](https://badge.fury.io/js/lint-prepush.svg)](https://www.npmjs.com/package/lint-prepush)
-[![npm downloads](https://img.shields.io/npm/dt/lint-prepush.svg)](https://www.npmtrends.com/lint-prepush)
-[![GitHub license](https://img.shields.io/github/license/theenadayalank/lint-prepush.svg)](https://github.com/theenadayalank/lint-prepush/blob/master/LICENSE)
 
-> Run linters on committed files🔬
+# lint-prepush: Automate Code Quality Before Every Push 🚀
 
-## Getting Started 🔮
+**lint-prepush** ensures that linters are automatically run on committed files before you push to a remote, maintaining code quality and consistency within teams.
 
-lint-prepush will run linters on the commited files while pushing the code to remote.
+## ⚙️ Prerequisites
 
-### Prerequisites🔭
+Make sure you have:
+- **Node.js** `>=18.18.0` – [Download Node.js](https://nodejs.org/)
+- **Git Hook Manager** – [Husky](https://github.com/typicode/husky) is recommended to integrate with your Git hooks
 
-* This package requires Node.js `>=18.18.0`.
-* A package to manage git hooks. (a tool like [Husky](https://github.com/typicode/husky))
+## 🚀 Installation
 
-### Installing
-
-#### npm
-
+### Using npm:
 ```bash
 npm install --save-dev lint-prepush
 ```
 
-#### using [`yarn`](https://yarnpkg.com/):
-
+### Using yarn:
 ```bash
 yarn add --dev lint-prepush
 ```
 
-### Usage
+## 🛠️ Configuration
 
-* Configure the following scripts in package.json to lint your committed files 🔧. You can also follow any of the  [cosmiconfig](https://github.com/davidtheclark/cosmiconfig) methods to configure lint-prepush.
+Once installed, configure **lint-prepush** in your `package.json` to lint specific file types before pushing.
 
-* pre-push git hook needs to be configured. [Husky](https://github.com/typicode/husky) is a widely used package for managing git hooks.
+### Basic Example: Lint JavaScript Files with ESLint
 
-```diff
-{
-+ "lint-prepush": {
-+   "base": "main",
-+    "tasks": {
-+      "*.js": [
-+        "eslint"
-+      ]
-+    }
-+  }
-}
-```
-
-The above scrips will lint the js files while pushing to git. It will terminate the process if there are any errors, otherwise, the changes will be pushed.
-
-### Without Errors
-<img src="screenshots/OutputWithoutErrors.gif" width="496" height="340" alt="WithoutErrors">
-
-### With Errors
-<img src="screenshots/OutputWithErrors.gif" width="496" height="340" alt="With Erros">
-
-### Concurrent Tasks
-
-Tasks for a file group will by default run in linear order (eg. `"*.js": [ "jest", "eslint"]` will run jest first, then after it's done run eslint).
-If you'd like to run tasks for a file group concurrently instead (eg. jest and eslint in parallel), use the `concurrent` property like so:
-
-```diff
-{
-+ "lint-prepush": {
-+    "tasks": {
-+      "*.js": {
-+        concurrent: [ "jest", "eslint" ]
-+      }
-+    }
-+  }
-}
-```
-
-### Verbose
-
-By default when the tasks succeed, there is no output printed to the console. Sometimes you might need to show linter rules configured for `warn` which should be displayed even if the tasks succeed. In order to achieve this, you can pass the config `verbose: true` so that the task output is printed to the console when the tasks succeed.
-
-```
+```json
 "lint-prepush": {
-  "verbose": true,
+  "base": "main",
   "tasks": {
-    ...
+    "*.js": [
+      "eslint"
+    ]
   }
 }
 ```
 
-## Built With
+This ensures that **eslint** runs on all `.js` files in your commit, blocking pushes if any errors are found.
 
-* [NodeJs](https://nodejs.org/en/) - Framework used
-* [NPM](https://www.npmjs.com/) - Dependency Management
-* [VSCode](https://code.visualstudio.com/) - Code Editor
+### ⚡ Concurrent Task Execution
 
-## Contributing
+You can run multiple tasks simultaneously on the same file type for faster processing:
+```json
+"lint-prepush": {
+  "tasks": {
+    "*.js": {
+      "concurrent": ["eslint", "jest"]
+    }
+  }
+}
+```
 
-* If you have any ideas, just open an [issue](https://github.com/theenadayalank/lint-prepush/issues) and tell us what you think.
-* Pull requests are warmly welcome, If you would like to contribute to this project.
+### 📢 Verbose Logging
 
+Want more details during the lint process? Enable verbose mode:
+```json
+"lint-prepush": {
+  "verbose": true,
+  "tasks": { ... }
+}
+```
+This will log every step in the process, even when there are no errors.
 
-## Versioning
+## 🎯 How It Works
 
-This package use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/theenadayalank/lint-prepush/tags).
+- **Hooks into Git's Pre-Push**: By using [Husky](https://github.com/typicode/husky), **lint-prepush** leverages Git hooks to automatically run specified tasks on your code before it leaves your local environment.
+- **Ensures Code Quality**: Stop bad code from being pushed by enforcing linting standards.
+- **Faster Feedback**: Concurrent task execution helps you catch problems quickly, reducing the time spent in code review.
 
-## Authors
+## 🤝 Acknowledgments
 
-* **Theena Dayalan** - *Owner* - [website](https://www.theenadayalan.me/)
+This project draws inspiration from:
+- [Husky](https://github.com/typicode/husky) for handling Git hooks
+- [Lint-staged](https://github.com/okonet/lint-staged) for ideas on managing tasks effectively
 
-See also the list of [contributors](https://github.com/theenadayalank/lint-prepush/contributors) who participated in this project.
+We appreciate the efforts of these projects!
 
-## Acknowledgments
+## 🔑 Keywords
 
-* Inspired from [lint-staged](https://github.com/okonet/lint-staged) by [Andrey Okonetchnikov](https://github.com/okonet)
+- git pre-push hook
+- linting automation
+- code quality
+- eslint
+- concurrent tasks
+- git hooks
+- husky
 
-## License
+## 📜 License
 
-MIT @ [Theena Dayalan](https://www.theenadayalan.me/)
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
