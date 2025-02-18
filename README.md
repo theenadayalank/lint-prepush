@@ -1,7 +1,8 @@
 # lint-prepush
+
 [![npm version](https://badge.fury.io/js/lint-prepush.svg)](https://www.npmjs.com/package/lint-prepush)
 [![npm downloads](https://img.shields.io/npm/dt/lint-prepush.svg)](https://www.npmtrends.com/lint-prepush)
-[![GitHub license](https://img.shields.io/github/license/theenadayalank/lint-prepush.svg)](https://github.com/theenadayalank/lint-prepush/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/theenadayalank/lint-prepush.svg)](https://github.com/theenadayalank/lint-prepush/blob/main/LICENSE)
 
 > Run linters on committed files🔬
 
@@ -11,8 +12,8 @@ lint-prepush will run linters on the commited files while pushing the code to re
 
 ### Prerequisites🔭
 
-* This package requires Node.js `>=18.18.0`.
-* A package to manage git hooks. (a tool like [Husky](https://github.com/typicode/husky))
+- This package requires Node.js `>=18.18.0`.
+- A package to manage git hooks. (a tool like [Husky](https://github.com/typicode/husky))
 
 ### Installing
 
@@ -30,9 +31,9 @@ yarn add --dev lint-prepush
 
 ### Usage
 
-* Configure the following scripts in package.json to lint your committed files 🔧. You can also follow any of the  [cosmiconfig](https://github.com/davidtheclark/cosmiconfig) methods to configure lint-prepush.
+- Configure the following scripts in package.json to lint your committed files 🔧. You can also follow any of the [cosmiconfig](https://github.com/davidtheclark/cosmiconfig) methods to configure lint-prepush.
 
-* pre-push git hook needs to be configured. [Husky](https://github.com/typicode/husky) is a widely used package for managing git hooks.
+- pre-push git hook needs to be configured. [Husky](https://github.com/typicode/husky) is a widely used package for managing git hooks.
 
 ```diff
 {
@@ -50,9 +51,11 @@ yarn add --dev lint-prepush
 The above scrips will lint the js files while pushing to git. It will terminate the process if there are any errors, otherwise, the changes will be pushed.
 
 ### Without Errors
+
 <img src="screenshots/OutputWithoutErrors.gif" width="496" height="340" alt="WithoutErrors">
 
 ### With Errors
+
 <img src="screenshots/OutputWithErrors.gif" width="496" height="340" alt="With Erros">
 
 ### Concurrent Tasks
@@ -87,15 +90,14 @@ By default when the tasks succeed, there is no output printed to the console. So
 
 ## Built With
 
-* [NodeJs](https://nodejs.org/en/) - Framework used
-* [NPM](https://www.npmjs.com/) - Dependency Management
-* [VSCode](https://code.visualstudio.com/) - Code Editor
+- [NodeJs](https://nodejs.org/en/) - Framework used
+- [NPM](https://www.npmjs.com/) - Dependency Management
+- [VSCode](https://code.visualstudio.com/) - Code Editor
 
 ## Contributing
 
-* If you have any ideas, just open an [issue](https://github.com/theenadayalank/lint-prepush/issues) and tell us what you think.
-* Pull requests are warmly welcome, If you would like to contribute to this project.
-
+- If you have any ideas, just open an [issue](https://github.com/theenadayalank/lint-prepush/issues) and tell us what you think.
+- Pull requests are warmly welcome, If you would like to contribute to this project.
 
 ## Versioning
 
@@ -103,13 +105,13 @@ This package use [SemVer](http://semver.org/) for versioning. For the versions a
 
 ## Authors
 
-* **Theena Dayalan** - *Owner* - [website](https://www.theenadayalan.me/)
+- **Theena Dayalan** - _Owner_ - [website](https://www.theenadayalan.me/)
 
 See also the list of [contributors](https://github.com/theenadayalank/lint-prepush/contributors) who participated in this project.
 
 ## Acknowledgments
 
-* Inspired from [lint-staged](https://github.com/okonet/lint-staged) by [Andrey Okonetchnikov](https://github.com/okonet)
+- Inspired from [lint-staged](https://github.com/okonet/lint-staged) by [Andrey Okonetchnikov](https://github.com/okonet)
 
 ## License
 
