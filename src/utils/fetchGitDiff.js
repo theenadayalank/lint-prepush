@@ -1,6 +1,9 @@
 import { execSyncProcess } from './common.js';
 
-export default function fetchGitDiff(baseBranch = "master" ) {
+// constants
+import { DEFAULT_BASE_BRANCH } from '../constants.js';
+
+export default function fetchGitDiff(baseBranch = DEFAULT_BASE_BRANCH ) {
   // git command to pull out the changed file names between current branch and base branch (Excluded delelted files which cannot be fetched now)
   let command = `git diff --relative --name-only --diff-filter=d ${baseBranch}...HEAD`;
 

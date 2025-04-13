@@ -37,7 +37,7 @@ yarn add --dev lint-prepush
 ```diff
 {
 + "lint-prepush": {
-+   "base": "master",
++   "base": "main",
 +    "tasks": {
 +      "*.js": [
 +        "eslint"

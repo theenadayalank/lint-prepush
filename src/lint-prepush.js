@@ -6,11 +6,15 @@ import debugFactory from 'debug';
 import os from 'os';
 import { Cache } from 'file-system-cache';
 
+// utils
 import { userConfig, execSyncProcess } from './utils/common.js';
 import resolveMainTask from './utils/resolveMainTask.js';
 import fetchGitDiff from './utils/fetchGitDiff.js';
 import checkForBranchExistence from './utils/checkForBranchExistence.js';
 import getAllTrackedFiles from './utils/getAllTrackedFiles.js';
+
+// constants
+import { DEFAULT_BASE_BRANCH } from './constants.js';
 
 const debug = debugFactory("lint-prepush:index");
 
@@ -88,8 +92,8 @@ if (process.stdout.isTTY) {
       debug("Upstream branch name", baseBranch);
     } catch (error) {
       log(error);
-      // fall back to original behavior of hard-coding the name master
-      baseBranch = "master";
+      // fall back to original behavior of hard-coding the name main
+      baseBranch = DEFAULT_BASE_BRANCH;
     }
   }
 
