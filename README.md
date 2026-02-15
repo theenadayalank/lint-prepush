@@ -1,4 +1,3 @@
-
 # lint-prepush: Automate Code Quality Before Every Push 🚀
 
 **lint-prepush** ensures that linters are automatically run on committed files before you push to a remote, maintaining code quality and consistency within teams.
@@ -6,17 +5,20 @@
 ## ⚙️ Prerequisites
 
 Make sure you have:
-- **Node.js** `>=18.18.0` – [Download Node.js](https://nodejs.org/)
+
+- **Node.js** `>=24.0.0` (LTS recommended) – [Download Node.js](https://nodejs.org/)
 - **Git Hook Manager** – [Husky](https://github.com/typicode/husky) is recommended to integrate with your Git hooks
 
 ## 🚀 Installation
 
-### Using npm:
+### Using npm
+
 ```bash
 npm install --save-dev lint-prepush
 ```
 
-### Using yarn:
+### Using yarn
+
 ```bash
 yarn add --dev lint-prepush
 ```
@@ -43,6 +45,7 @@ This ensures that **eslint** runs on all `.js` files in your commit, blocking pu
 ### ⚡ Concurrent Task Execution
 
 You can run multiple tasks simultaneously on the same file type for faster processing:
+
 ```json
 "lint-prepush": {
   "tasks": {
@@ -56,12 +59,14 @@ You can run multiple tasks simultaneously on the same file type for faster proce
 ### 📢 Verbose Logging
 
 Want more details during the lint process? Enable verbose mode:
+
 ```json
 "lint-prepush": {
   "verbose": true,
   "tasks": { ... }
 }
 ```
+
 This will log every step in the process, even when there are no errors.
 
 ## 🎯 How It Works
@@ -73,6 +78,7 @@ This will log every step in the process, even when there are no errors.
 ## 🤝 Acknowledgments
 
 This project draws inspiration from:
+
 - [Husky](https://github.com/typicode/husky) for handling Git hooks
 - [Lint-staged](https://github.com/okonet/lint-staged) for ideas on managing tasks effectively
 

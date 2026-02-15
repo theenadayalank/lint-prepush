@@ -25,9 +25,8 @@ export default function resolveMainTask( config = {} ) {
 
 function constructTaskList({ tasks = {}, committedGitFiles = [] } = {}) {
   return Object.keys(tasks).map(fileFormat => {
-    let fileList = [];
-    let commandList = tasks[fileFormat];
-    fileList = micromatch(committedGitFiles, [fileFormat], {
+    const commandList = tasks[fileFormat];
+    const fileList = micromatch(committedGitFiles, [fileFormat], {
       // Glob patterns break if matchBase is true, disable if fileFormat looks like path
       matchBase: !fileFormat.includes('/'),
       dot: true
