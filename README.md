@@ -6,7 +6,7 @@
 ## ⚙️ Prerequisites
 
 Make sure you have:
-- **Node.js** `>=18.18.0` – [Download Node.js](https://nodejs.org/)
+- **Node.js** `>=24.0.0` (latest LTS recommended) – [Download Node.js](https://nodejs.org/)
 - **Git Hook Manager** – [Husky](https://github.com/typicode/husky) is recommended to integrate with your Git hooks
 
 ## 🚀 Installation

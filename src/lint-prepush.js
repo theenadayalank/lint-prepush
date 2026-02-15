@@ -65,8 +65,8 @@ if (process.stdout.isTTY) {
     return;
   }
 
-  let currentBranch = "";
-  let getCurrentBranchCommand = "git rev-parse --abbrev-ref HEAD";
+  let currentBranch;
+  const getCurrentBranchCommand = "git rev-parse --abbrev-ref HEAD";
 
   try {
     currentBranch = execSyncProcess(getCurrentBranchCommand);
@@ -136,7 +136,7 @@ if (process.stdout.isTTY) {
     return;
   }
 
-  let committedGitFiles = [];
+  let committedGitFiles;
   if (isdiffBranchExisted) {
     debug("Base branch exists.");
     try {

@@ -13,6 +13,7 @@
     "lint:fix": "yarn lint --fix",
     "build": "tsup",
     "test": "mocha tests/",
+    "verify": "yarn build && yarn lint . && yarn test",
     "prepare": "husky"
   },
   "lint-prepush": {
@@ -24,31 +25,31 @@
     }
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
-    "chai": "^5.1.0",
-    "eslint": "^9.1.1",
-    "eslint-plugin-mocha": "^10.5.0",
+    "@eslint/js": "^10.0.1",
+    "chai": "^6.2.2",
+    "eslint": "^10.0.0",
+    "eslint-plugin-mocha": "^11.2.0",
     "eslint-plugin-node": "^11.1.0",
-    "husky": "^9.1.5",
-    "mocha": "^10.4.0",
-    "tsup": "^8.2.4",
-    "typescript": "^5.5.4"
+    "husky": "^9.1.7",
+    "mocha": "^11.7.5",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "chalk": "^5.3.0",
+    "chalk": "^5.6.2",
     "cosmiconfig": "^9.0.0",
-    "debug": "^4.3.4",
-    "dedent": "^1.5.3",
-    "execa": "^7.2.0",
+    "debug": "^4.4.3",
+    "dedent": "^1.7.1",
+    "execa": "^9.6.1",
     "file-system-cache": "^2.4.7",
     "listr": "^0.14.3",
-    "log-symbols": "^6.0.0",
-    "micromatch": "^4.0.5",
+    "log-symbols": "^7.0.1",
+    "micromatch": "^4.0.8",
     "node-which": "^1.0.0",
     "npm-which": "^3.0.1"
   },
   "engines": {
-    "node": ">=18.18.0"
+    "node": ">=24.0.0"
   },
   "repository": {
     "type": "git",

@@ -47,7 +47,7 @@ export default [
 
   // mocha related eslint rules
   {
-    ...mochaPlugin.configs.flat.recommended,
+    ...mochaPlugin.configs.recommended,
     files: ["tests/**/*.js"],
     languageOptions: {
       parserOptions: {
