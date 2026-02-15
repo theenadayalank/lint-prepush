@@ -23,9 +23,19 @@ npm install --save-dev lint-prepush
 yarn add --dev lint-prepush
 ```
 
+### Setting up the pre-push hook
+
+If you use [Husky](https://github.com/typicode/husky), add a pre-push hook so **lint-prepush** runs before each push:
+
+```bash
+npx husky add .husky/pre-push "npx lint-prepush"
+```
+
+(If you don’t use Husky yet, run `npx husky init` first, then add the hook as above.)
+
 ## 🛠️ Configuration
 
-Once installed, configure **lint-prepush** in your `package.json` to lint specific file types before pushing.
+Once installed, configure **lint-prepush** in your `package.json` (under the `"lint-prepush"` key) or in a separate config file (e.g. `.lint-prepushrc.json`) to lint specific file types before pushing.
 
 ### Basic Example: Lint JavaScript Files with ESLint
 
@@ -86,13 +96,13 @@ We appreciate the efforts of these projects!
 
 ## 🔑 Keywords
 
-- git pre-push hook
-- linting automation
-- code quality
-- eslint
-- concurrent tasks
-- git hooks
+- lint
+- lint-prepush
+- prepush
 - husky
+- linter
+- git
+- hooks
 
 ## 📜 License
 
