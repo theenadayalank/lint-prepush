@@ -1,4 +1,3 @@
-import Listr from 'listr';
 import path from 'path';
 import micromatch from 'micromatch';
 
@@ -7,16 +6,16 @@ import resolveLintTask from './resolveLintTask.js';
 const cwd = process.cwd();
 
 export default function resolveMainTask( config = {} ) {
-  return constructTaskList(config).map(task => ({
-    title: `Linting ${task.fileFormat} files`,
-    task: () =>
-      new Listr(resolveLintTask(task.commandList.concurrent || task.commandList, task.fileList, config.options), {
+  return constructTaskList(config).map(item => ({
+    title: `Linting ${item.fileFormat} files`,
+    task: (_, task) =>
+      task.newListr(resolveLintTask(item.commandList.concurrent || item.commandList, item.fileList, config.options), {
         exitOnError: true,
-        concurrent: Array.isArray(task.commandList.concurrent)
+        concurrent: Array.isArray(item.commandList.concurrent)
       }),
     skip: () => {
-      if (task.fileList.length === 0) {
-        return `No files found with ${task.fileFormat}`;
+      if (item.fileList.length === 0) {
+        return `No files found with ${item.fileFormat}`;
       }
       return false;
     }
@@ -25,9 +24,8 @@ export default function resolveMainTask( config = {} ) {
 
 function constructTaskList({ tasks = {}, committedGitFiles = [] } = {}) {
   return Object.keys(tasks).map(fileFormat => {
-    let fileList = [];
-    let commandList = tasks[fileFormat];
-    fileList = micromatch(committedGitFiles, [fileFormat], {
+    const commandList = tasks[fileFormat];
+    const fileList = micromatch(committedGitFiles, [fileFormat], {
       // Glob patterns break if matchBase is true, disable if fileFormat looks like path
       matchBase: !fileFormat.includes('/'),
       dot: true

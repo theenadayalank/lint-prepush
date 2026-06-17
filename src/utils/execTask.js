@@ -2,9 +2,6 @@ import { execa } from 'execa';
 import dedent from 'dedent';
 import chalk from 'chalk';
 import symbols from 'log-symbols';
-import npmWhichFactory from 'npm-which';
-
-const npmWhich = npmWhichFactory(process.cwd());
 
 function getFormattedTime(end) {
   return Math.round(end[0] * 1000 + end[1] / 1000000);
@@ -15,7 +12,7 @@ export default function execTask({ command, fileList, task, options = {} }) {
   let startTime = process.hrtime();
 
   return () =>
-    execa(executor, args, { reject: false }).then((result) => {
+    execa(executor, args, { reject: false, preferLocal: true }).then((result) => {
       let end = process.hrtime(startTime);
       let elapsedTime = `(${getFormattedTime(end)}ms)`;
       task.title = `${task.title} ${chalk.grey(elapsedTime)}`;
@@ -33,7 +30,6 @@ export default function execTask({ command, fileList, task, options = {} }) {
 
 function resolveLinterPackage({ command, fileList }) {
   let [executor, ...args] = command.split(" ");
-  executor = npmWhich.sync(executor);
   args = args.concat(fileList);
   return {
     executor,
