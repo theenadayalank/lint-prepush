@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import Listr from 'listr';
+import { Listr } from 'listr2';
 import chalk from 'chalk';
 import debugFactory from 'debug';
 import os from 'os';
@@ -177,31 +177,35 @@ if (process.stdout.isTTY) {
     output: [],
   };
 
-  new Listr(resolveMainTask({ tasks, committedGitFiles, options }), {
+  const runner = new Listr(resolveMainTask({ tasks, committedGitFiles, options }), {
     exitOnError: false,
     concurrent: true,
-    collapse: false,
-  })
-    .run()
-    .then(() => {
-      cache.setSync("linted-hash", commitHash);
-      debug("Cached Current Commit Hash");
-      if (options.verbose && options.output.length) {
-        log(
-          success(
-            "\nAll tasks completed successfully. Printing tasks output.\n"
-          )
-        );
-        for (const line of options.output) {
-          log(line);
-        }
-      }
-      log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
-    })
-    .catch(({ errors }) => {
+    collectErrors: 'full',
+    rendererOptions: {
+      collapseSubtasks: false,
+    },
+  });
+
+  runner.run().then(() => {
+    if (runner.errors.length) {
       process.exitCode = 1;
-      errors.forEach((err) => {
-        console.error(err.customErrorMessage);
+      runner.errors.forEach(({ error }) => {
+        console.error(error?.customErrorMessage);
       });
-    });
+      return;
+    }
+    cache.setSync("linted-hash", commitHash);
+    debug("Cached Current Commit Hash");
+    if (options.verbose && options.output.length) {
+      log(
+        success(
+          "\nAll tasks completed successfully. Printing tasks output.\n"
+        )
+      );
+      for (const line of options.output) {
+        log(line);
+      }
+    }
+    log(success("\nVoila! 🎉  Code is ready to be Shipped.\n"));
+  });
 })();

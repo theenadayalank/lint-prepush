@@ -29,7 +29,6 @@
     "chai": "^6.2.2",
     "eslint": "^10.0.0",
     "eslint-plugin-mocha": "^11.2.0",
-    "eslint-plugin-node": "^11.1.0",
     "husky": "^9.1.7",
     "mocha": "^10.8.2",
     "tsup": "^8.5.1",
@@ -42,11 +41,9 @@
     "dedent": "^1.7.1",
     "execa": "^9.6.1",
     "file-system-cache": "^2.4.7",
-    "listr": "^0.14.3",
+    "listr2": "^10.2.1",
     "log-symbols": "^7.0.1",
-    "micromatch": "^4.0.8",
-    "node-which": "^1.0.0",
-    "npm-which": "^3.0.1"
+    "micromatch": "^4.0.8"
   },
   "engines": {
     "node": ">=24.0.0"
