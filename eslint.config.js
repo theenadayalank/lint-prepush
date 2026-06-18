@@ -1,62 +1,35 @@
-import globals from "globals";
-import js from "@eslint/js";
-import mochaPlugin from 'eslint-plugin-mocha';
+import globals from 'globals';
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
-export default [
+export default tseslint.config(
   {
-    files: ["src/**/*.js"],
+    files: ['src/**/*.ts'],
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     languageOptions: {
-      globals: {
-        ...globals.node,
-      },
-      parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
-      },
+      globals: { ...globals.node },
     },
     rules: {
-      ...js.configs.recommended.rules,
-      "space-unary-ops": [
-        "error",
-        {
-          words: true,
-          nonwords: false,
-        },
-      ],
-      camelcase: "off",
-      "func-call-spacing": ["error", "never"],
-      "eol-last": ["error", "always"],
-      "no-console": "off",
-      "no-alert": "error",
-      eqeqeq: ["error", "always"],
-      "no-eval": "error",
-      "no-caller": "error",
-      "no-undef": "error",
-      "no-eq-null": "error",
-      "no-useless-escape": "off",
-      "no-extra-parens": "off",
-      "no-trailing-spaces": "error",
-      "no-multi-spaces": "error",
-      "array-bracket-spacing": ["error", "never"],
-      "object-curly-spacing": ["error", "always"],
-      "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 1 }],
-      "space-before-function-paren": ["error", "never"],
-      semi: "error",
+      'eqeqeq': ['error', 'always'],
+      'no-eval': 'error',
+      'no-caller': 'error',
+      'no-alert': 'error',
+      'eol-last': ['error', 'always'],
+      'no-trailing-spaces': 'error',
+      'no-multi-spaces': 'error',
+      'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
   },
-
-  // mocha related eslint rules
   {
-    ...mochaPlugin.configs.recommended,
-    files: ["tests/**/*.js"],
+    files: ['tests/**/*.ts'],
+    extends: [...tseslint.configs.recommended],
     languageOptions: {
-      parserOptions: {
-        sourceType: "script",
-        ecmaVersion: "latest",
-      },
+      globals: { ...globals.node },
     },
     rules: {
-      "mocha/no-exclusive-tests": "error",
+      '@typescript-eslint/no-explicit-any': 'off',
     },
-  },
-];
+  }
+);

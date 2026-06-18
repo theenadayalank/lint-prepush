@@ -5,48 +5,59 @@
   "author": "“Theenadayalan” <“puduvai.theena@gmail.com”>",
   "license": "MIT",
   "type": "module",
+  "packageManager": "pnpm@10.29.3",
   "bin": {
-    "lint-prepush": "./dist/lint-prepush.js"
+    "lint-prepush": "./dist/bin.js"
   },
   "scripts": {
-    "lint": "node_modules/.bin/eslint",
-    "lint:fix": "yarn lint --fix",
     "build": "tsup",
-    "test": "mocha tests/",
-    "verify": "yarn build && yarn lint . && yarn test",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src tests",
+    "lint:fix": "eslint src tests --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
+    "release": "changeset publish",
     "prepare": "husky"
   },
   "lint-prepush": {
-    "base": "develop",
+    "base": "master",
     "tasks": {
-      "*.js": [
-        "node_modules/.bin/eslint"
+      "*.ts": [
+        "eslint"
       ]
     }
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.0",
     "@eslint/js": "^10.0.1",
-    "chai": "^6.2.2",
+    "@types/debug": "^4.1.13",
+    "@types/micromatch": "^4.0.10",
+    "@types/node": "^25.9.3",
+    "@vitest/coverage-v8": "^4.1.9",
     "eslint": "^10.0.0",
-    "eslint-plugin-mocha": "^11.2.0",
+    "globals": "^17.6.0",
     "husky": "^9.1.7",
-    "mocha": "^10.8.2",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.61.1",
+    "vitest": "^4.1.9"
   },
   "dependencies": {
     "chalk": "^5.6.2",
     "cosmiconfig": "^9.0.0",
     "debug": "^4.4.3",
-    "dedent": "^1.7.1",
     "execa": "^9.6.1",
-    "file-system-cache": "^2.4.7",
     "listr2": "^10.2.1",
-    "log-symbols": "^7.0.1",
-    "micromatch": "^4.0.8"
+    "micromatch": "^4.0.8",
+    "zod": "^4.4.3"
   },
   "engines": {
     "node": ">=24.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
   },
   "repository": {
     "type": "git",

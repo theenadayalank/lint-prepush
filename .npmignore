@@ -1,17 +1,19 @@
-# dependency directories
+# dependencies
 /node_modules
 
-# development configurations
+# source
+/src
+/tests
+
+# dev tooling
 .env
 .DS_Store
 .github/
 .gitignore
+.husky/
+.changeset/
 eslint.config.js
-yarn.lock
+tsconfig.json
 tsup.config.ts
-
-# development files
-/scrips
-/src
-/tests
-/.husky
+vitest.config.ts
+pnpm-lock.yaml
