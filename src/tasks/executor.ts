@@ -1,6 +1,6 @@
 import { execa } from 'execa';
 import chalk from 'chalk';
-import type { ExecTaskParams, RunOptions } from '../types.js';
+import type { ExecTaskParams, RunOptions } from '../types.ts';
 
 class LintError extends Error {
   constructor(command: string, stdout: string, stderr: string) {

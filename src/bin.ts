@@ -1,4 +1,4 @@
-import { run } from './cli.js';
+import { run } from "./cli.ts";
 
 run().catch((err: unknown) => {
   console.error(err);

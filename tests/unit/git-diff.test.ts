@@ -4,8 +4,8 @@ vi.mock('../../src/utils/process.js', () => ({
   execSyncProcess: vi.fn(),
 }));
 
-import { execSyncProcess } from '../../src/utils/process.js';
-import { getDiffFiles, getAllTrackedFiles } from '../../src/git/diff.js';
+import { execSyncProcess } from '../../src/utils/process.ts';
+import { getDiffFiles, getAllTrackedFiles } from '../../src/git/diff.ts';
 
 const mockExec = vi.mocked(execSyncProcess);
 

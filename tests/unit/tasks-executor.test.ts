@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { RunOptions } from '../../src/types.js';
+import type { RunOptions } from '../../src/types.ts';
 
 vi.mock('execa', () => ({ execa: vi.fn() }));
 
 import { execa } from 'execa';
-import { execTask } from '../../src/tasks/executor.js';
+import { execTask } from '../../src/tasks/executor.ts';
 
 const mockExeca = vi.mocked(execa);
 

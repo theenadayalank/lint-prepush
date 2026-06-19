@@ -1,5 +1,5 @@
 import type { ListrTaskWrapper, DefaultRenderer } from 'listr2';
-import type { LintPrepushConfig, CommandList } from './config/schema.js';
+import type { LintPrepushConfig, CommandList } from './config/schema.ts';
 
 export type { LintPrepushConfig, CommandList };
 

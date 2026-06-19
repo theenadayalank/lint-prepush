@@ -1,4 +1,4 @@
-import { execSyncProcess } from '../utils/process.js';
+import { execSyncProcess } from '../utils/process.ts';
 
 export function getCurrentBranch(): string {
   return execSyncProcess('git rev-parse --abbrev-ref HEAD');

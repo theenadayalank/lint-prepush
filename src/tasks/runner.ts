@@ -1,7 +1,7 @@
 import { Listr, type ListrTask } from 'listr2';
-import { execTask } from './executor.js';
-import { resolveFileLists } from './resolver.js';
-import type { LintPrepushConfig, RunOptions } from '../types.js';
+import { execTask } from './executor.ts';
+import { resolveFileLists } from './resolver.ts';
+import type { LintPrepushConfig, RunOptions } from '../types.ts';
 
 type Ctx = Record<string, never>;
 

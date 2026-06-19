@@ -1,6 +1,6 @@
 {
   "name": "lint-prepush",
-  "version": "3.0.3",
+  "version": "4.0.0",
   "description": "Run linters on committed files in a Branch🔬",
   "author": "“Theenadayalan” <“puduvai.theena@gmail.com”>",
   "license": "MIT",
@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc",
     "lint": "eslint src tests",
     "lint:fix": "eslint src tests --fix",
     "test": "vitest run",
@@ -54,6 +54,7 @@
     "cosmiconfig": "^9.0.0",
     "debug": "^4.4.3",
     "execa": "^9.6.1",
+    "lint-prepush": "link:../../../Library/pnpm/global/5/node_modules/lint-prepush",
     "listr2": "^10.2.1",
     "micromatch": "^4.0.8",
     "zod": "^4.4.3"
@@ -62,7 +63,9 @@
     "node": ">=24.0.0"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"]
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "repository": {
     "type": "git",

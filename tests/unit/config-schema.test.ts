@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { configSchema } from '../../src/config/schema.js';
+import { configSchema } from '../../src/config/schema.ts';
 
 describe('configSchema', () => {
   it('accepts a valid config with sequential tasks', () => {

@@ -20,6 +20,9 @@ importers:
       execa:
         specifier: ^9.6.1
         version: 9.6.1
+      lint-prepush:
+        specifier: link:../../../Library/pnpm/global/5/node_modules/lint-prepush
+        version: link:../../../Library/pnpm/global/5/node_modules/lint-prepush
       listr2:
         specifier: ^10.2.1
         version: 10.2.1

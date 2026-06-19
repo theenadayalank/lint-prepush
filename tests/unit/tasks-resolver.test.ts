@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { resolveFileLists } from '../../src/tasks/resolver.js';
+import { resolveFileLists } from '../../src/tasks/resolver.ts';
 
 describe('resolveFileLists', () => {
   it('matches files against a glob pattern', () => {
@@ -52,5 +52,14 @@ describe('resolveFileLists', () => {
       ['.hidden.ts', 'visible.ts']
     );
     expect(result[0].fileList).toHaveLength(2);
+  });
+
+  it('matches files against comma-separated patterns', () => {
+    const result = resolveFileLists(
+      { '*.js,*.jsx,*.ts,*.tsx': ['eslint'] },
+      ['app/not-found.tsx', 'package.json', 'pnpm-lock.yaml']
+    );
+    expect(result[0].fileList).toHaveLength(1);
+    expect(result[0].fileList[0]).toContain('not-found.tsx');
   });
 });

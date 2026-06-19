@@ -1,4 +1,4 @@
-import { execSyncProcess } from '../utils/process.js';
+import { execSyncProcess } from '../utils/process.ts';
 
 export function checkBranchExists(branch: string, remote = ''): boolean {
   const command = remote

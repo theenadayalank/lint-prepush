@@ -1,5 +1,5 @@
-import { execSyncProcess } from '../utils/process.js';
-import { DEFAULT_BASE_BRANCH } from '../constants.js';
+import { execSyncProcess } from '../utils/process.ts';
+import { DEFAULT_BASE_BRANCH } from '../constants.ts';
 
 export function getDiffFiles(baseBranch = DEFAULT_BASE_BRANCH): string[] {
   const output = execSyncProcess(

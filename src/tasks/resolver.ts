@@ -1,6 +1,6 @@
 import { resolve } from 'node:path';
 import micromatch from 'micromatch';
-import type { CommandList, ResolvedTask } from '../types.js';
+import type { CommandList, ResolvedTask } from '../types.ts';
 
 const cwd = process.cwd();
 
@@ -9,8 +9,9 @@ export function resolveFileLists(
   committedFiles: string[]
 ): ResolvedTask[] {
   return Object.entries(tasks).map(([fileFormat, commandList]) => {
-    const fileList = micromatch(committedFiles, [fileFormat], {
-      matchBase: !fileFormat.includes('/'),
+    const patterns = fileFormat.split(',').map(p => p.trim());
+    const fileList = micromatch(committedFiles, patterns, {
+      matchBase: patterns.every(p => !p.includes('/')),
       dot: true,
     }).map(file => resolve(cwd, file));
 

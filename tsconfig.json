@@ -9,7 +9,9 @@
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
   },
   "include": ["src/**/*", "tests/**/*", "tsup.config.ts", "vitest.config.ts"],
   "exclude": ["node_modules", "dist"]

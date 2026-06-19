@@ -2,7 +2,7 @@ import { describe, it, expect, afterAll } from 'vitest';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { getCachedHash, setCachedHash } from '../../src/git/cache.js';
+import { getCachedHash, setCachedHash } from '../../src/git/cache.ts';
 
 const TEST_BASE = mkdtempSync(join(tmpdir(), 'lp-cache-test-'));
 

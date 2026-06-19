@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { execSyncProcess } from '../../src/utils/process.js';
+import { execSyncProcess } from '../../src/utils/process.ts';
 
 describe('execSyncProcess', () => {
   it('returns stdout without trailing newline', () => {

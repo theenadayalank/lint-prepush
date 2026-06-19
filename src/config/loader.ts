@@ -1,5 +1,5 @@
 import { cosmiconfig } from 'cosmiconfig';
-import { configSchema, type LintPrepushConfig } from './schema.js';
+import { configSchema, type LintPrepushConfig } from './schema.ts';
 
 export async function loadConfig(): Promise<LintPrepushConfig> {
   const explorer = cosmiconfig('lint-prepush');
